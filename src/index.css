@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Design tokens (spec §61) — playful space-station edition ---- */
+:root {
+  color-scheme: dark;
+  --background: #000000;
+  --surface: rgba(52, 64, 90, 0.92);
+  --surface-elevated: rgba(68, 82, 110, 0.95);
+  --text: #f2f6ff;
+  --text-muted: #9fb0d8;
+  --accent: #4cc9f0;
+  --accent-deep: #2286a8;
+  --accent-warm: #ffb703;
+  --success: #3ddc84;
+  --warning: #ffb703;
+  --danger: #ef476f;
+  --border: rgba(214, 226, 255, 0.3);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background);
+  color: var(--text);
+  font-family: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: "Baloo 2", "Nunito", ui-sans-serif, sans-serif;
+}
+
+code, pre, .font-mono {
+  font-family: "Nunito", ui-monospace, monospace;
+  font-weight: 700;
+}
+
+input, textarea, select, button {
+  font-family: inherit;
+}
+
+::selection {
+  background: rgba(76, 201, 240, 0.4);
+  color: #ffffff;
+}
+
+/* Browser autofill paints name/email fields pale blue, which made our light
+   text invisible. Force the station palette back on top of it. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #f2f6ff;
+  -webkit-box-shadow: 0 0 0 1000px #0b1120 inset;
+  caret-color: #f2f6ff;
+  border-radius: 12px;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(76, 201, 240, 0.35) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: rgba(76, 201, 240, 0.3); border-radius: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+@layer utilities {
+  /* Legacy shape classes kept as playful rounded equivalents */
+  .clip-panel { border-radius: 20px; }
+  .clip-tag { border-radius: 999px; }
+  .clip-blob { border-radius: 28px; }
+  .text-glow { text-shadow: 0 0 16px rgba(76, 201, 240, 0.6); }
+  .text-glow-warm { text-shadow: 0 0 16px rgba(255, 183, 3, 0.6); }
+  .btn-3d { box-shadow: 0 5px 0 0 rgba(9, 16, 38, 0.9), 0 8px 18px rgba(0, 0, 0, 0.35); }
+  .btn-3d-sm { box-shadow: 0 3px 0 0 rgba(9, 16, 38, 0.9); }
+  /* Task progress stripes (upload bar) */
+  .task-stripes {
+    background-image: linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.25) 25%, transparent 25%,
+      transparent 50%, rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.25) 75%, transparent 75%, transparent
+    );
+    background-size: 18px 18px;
+    animation: taskcrawl 0.8s linear infinite;
+  }
+}
+
+@keyframes taskcrawl {
+  from { background-position: 0 0; }
+  to { background-position: 18px 0; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(2.5deg); }
+}
+.animate-wiggle { animation: wiggle 0.4s ease-in-out infinite; }
+
+/* NOVA walk cycles */
+@keyframes novaStepA {
+  from { transform: translateY(0) rotate(4deg); }
+  to { transform: translateY(-4px) rotate(-10deg); }
+}
+@keyframes novaStepB {
+  from { transform: translateY(-4px) rotate(-10deg); }
+  to { transform: translateY(0) rotate(4deg); }
+}
+@keyframes novaBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+.nova-bob { animation: novaBob 0.42s ease-in-out infinite; }
+
+/* Focus visibility for accessibility (spec §54) */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Reduced-motion respect (spec §54) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Mobile game viewport + safe areas (spec §62 mobile-first) ---- */
+.game-viewport {
+  height: calc(100vh - 64px);
+  height: calc(100dvh - 64px - env(safe-area-inset-top, 0px));
+  min-height: 560px;
+}
+@media (max-height: 760px) {
+  .game-viewport {
+    min-height: 0;
+  }
+}
+
+/* Keep bottom HUD clear of the home indicator / top notch (iOS) */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}

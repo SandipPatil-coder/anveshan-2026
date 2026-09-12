@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/console-icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1020" />
+    <meta
+      name="description"
+      content="ANVESHAN 2026 — the game-like mission station for our college tech fest. Walk the station, run tasks, register your crew."
+    />
+    <title>ANVESHAN 2026 — Mission Station</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Boot paint — shown before React mounts */
+      #boot {
+        position: fixed;
+        inset: 0;
+        background: #0b1020;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4cc9f0;
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        letter-spacing: 0.3em;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="boot">LOADING STATION…</div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

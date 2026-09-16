@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Baloo 2"', "Nunito", "ui-sans-serif", "sans-serif"],
+        display: ['"M PLUS Rounded 1c"', "Nunito", "ui-sans-serif", "sans-serif"],
         sans: ['"Nunito"', "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ['"Nunito"', "ui-monospace", "monospace"],
       },
@@ -22,9 +22,9 @@ export default {
         "accent-warm": "var(--accent-warm)",
       },
       boxShadow: {
-        glow: "0 0 22px rgba(76, 201, 240, 0.3)",
-        glowlg: "0 0 48px rgba(76, 201, 240, 0.4)",
-        amber: "0 0 22px rgba(255, 183, 3, 0.3)",
+        glow: "0 0 22px rgba(255, 171, 94, 0.3)",
+        glowlg: "0 0 48px rgba(255, 171, 94, 0.4)",
+        amber: "0 0 22px rgba(255, 209, 102, 0.3)",
       },
       borderRadius: {
         blob: "18px",

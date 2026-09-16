@@ -6,7 +6,7 @@ interface PanelProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
 }
 
-/** Rounded space-station panel */
+/** Rounded festival panel */
 export default function Panel({ className = "", children, ...rest }: PanelProps) {
   return (
     <div className={`rounded-blob border-2 border-[#aebbdd]/70 bg-hull backdrop-blur-md ${className}`} {...rest}>

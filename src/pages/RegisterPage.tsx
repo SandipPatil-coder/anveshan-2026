@@ -6,7 +6,7 @@ import Panel, { PanelHeader } from "@/components/ui/Panel";
 import Button from "@/components/ui/Button";
 import Field from "@/components/ui/Field";
 import Badge from "@/components/ui/Badge";
-import Nova from "@/components/Nova";
+import Mochi from "@/components/Mochi";
 import { useAuth } from "@/context/AuthContext";
 import { fetchEventBySlug } from "@/services/data";
 import { registerForEvent, captureMockPayment } from "@/services/rpc";
@@ -28,9 +28,9 @@ interface MemberDraft {
 const EMPTY_MEMBER: MemberDraft = { name: "", email: "", phone: "", college: "" };
 
 const TASK_LIST: { key: Step | "payment"; label: string }[] = [
-  { key: "swipe", label: "Swipe ID card" },
-  { key: "team", label: "Assemble crew" },
-  { key: "review", label: "Confirm dossier" },
+  { key: "swipe", label: "Swipe entry pass" },
+  { key: "team", label: "Assemble your team" },
+  { key: "review", label: "Confirm details" },
   { key: "payment", label: "Pay fee" },
 ];
 
@@ -178,7 +178,7 @@ export default function RegisterPage() {
   if (loadingEvent) {
     return (
       <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 px-4 py-20 font-display text-sm font-bold text-inkdim">
-        <Nova size={40} walking /> POWERING UP TERMINAL…
+        <Mochi size={40} walking /> OPENING THE GATES…
       </div>
     );
   }
@@ -186,8 +186,8 @@ export default function RegisterPage() {
   if (!event) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-20 text-center">
-        <div className="font-display text-3xl font-extrabold text-alert">SIGNAL LOST</div>
-        <Button to="/events" variant="ghost" className="mt-5">BACK TO MISSIONS</Button>
+        <div className="font-display text-3xl font-extrabold text-alert">STALL NOT FOUND</div>
+        <Button to="/events" variant="ghost" className="mt-5">BACK TO EVENTS</Button>
       </div>
     );
   }
@@ -202,17 +202,17 @@ export default function RegisterPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 pb-24 pt-8 sm:pt-12">
       <Link to={`/events/${event.slug}`} className="inline-flex items-center gap-2 font-display text-xs font-extrabold tracking-widest text-inkdim hover:text-plasma">
-        <ArrowLeft size={14} /> ABORT — BACK TO DOSSIER
+        <ArrowLeft size={14} /> BACK TO EVENT
       </Link>
 
       <div className="mt-4 text-center">
-        <div className="font-display text-[11px] font-extrabold uppercase tracking-[0.4em] text-inkdim">REGISTRATION TERMINAL</div>
+        <div className="font-display text-[11px] font-extrabold uppercase tracking-[0.4em] text-inkdim">REGISTRATION TENT</div>
         <h1 className="mt-1 font-display text-3xl font-extrabold text-ink sm:text-4xl">{event.name}</h1>
       </div>
 
-      {/* TASKS HUD — the crewmate task list */}
+      {/* TASKS HUD — the guest task list */}
       <Panel className="mx-auto mt-5 max-w-md p-4">
-        <div className="font-display text-xs font-extrabold uppercase tracking-[0.3em] text-accent-warm">✦ Crewmate Tasks</div>
+        <div className="font-display text-xs font-extrabold uppercase tracking-[0.3em] text-accent-warm">✦ Festival Tasks</div>
         <ul className="mt-2 space-y-1">
           {TASK_LIST.filter((t) => !(t.key === "payment" && fee === 0)).map((t) => {
             const done = taskDone(t.key);
@@ -236,25 +236,25 @@ export default function RegisterPage() {
 
       {existing && step === "terminal" && (
         <Panel className="mt-6 p-5 text-center">
-          <div className="font-display text-sm font-extrabold text-signet">✓ MISSION ALREADY ACCEPTED</div>
+          <div className="font-display text-sm font-extrabold text-signet">✓ ALREADY REGISTERED</div>
           <div className="mt-2 font-mono text-sm text-ink">{existing}</div>
-          <Button to="/dashboard" variant="ghost" size="sm" className="mt-3">VIEW CREW DECK</Button>
+          <Button to="/dashboard" variant="ghost" size="sm" className="mt-3">VIEW YOUR PASSES</Button>
         </Panel>
       )}
 
       <div className="mt-6">
         {step === "terminal" && (
           <Panel className="relative overflow-hidden p-8 text-center">
-            <div className="text-5xl">{event.team_based ? "👥" : "🧑‍🚀"}</div>
+            <div className="text-5xl">{event.team_based ? "👥" : "🍡"}</div>
             <div className="mt-4 font-display text-lg font-extrabold text-ink">
-              {existing ? "MISSION ALREADY ACCEPTED" : win!.tone === "open" ? "READY TO ACCEPT MISSION" : win!.label}
+              {existing ? "ALREADY REGISTERED" : win!.tone === "open" ? "READY TO REGISTER" : win!.label}
             </div>
             <div className="mt-1 font-display text-xs font-bold text-inkdim">
-              {isSolo ? "Solo mission" : `Crew of ${event.min_team_size}–${event.max_team_size}`} ·{" "}
+              {isSolo ? "Solo entry" : `Team of ${event.min_team_size}–${event.max_team_size}`} ·{" "}
               {isCollege ? "College: FREE" : `External: ${fmtMoney(fee)}`}
             </div>
             <Button size="lg" className="mt-6" onClick={activate} disabled={win!.tone !== "open" || !!existing}>
-              <Zap size={16} /> POWER ON TERMINAL
+              <Zap size={16} /> OPEN THE GATE
             </Button>
             <AnimatePresence>
               {activating && (
@@ -271,14 +271,14 @@ export default function RegisterPage() {
 
         {step === "swipe" && user && (
           <Panel className="p-6">
-            <PanelHeader>TASK — VERIFY CREW ID</PanelHeader>
+            <PanelHeader>TASK — VERIFY GUEST PASS</PanelHeader>
             <SwipeTask onDone={() => { sfx.swipeOk(); setStep("team"); }} />
           </Panel>
         )}
 
         {step === "team" && user && (
           <Panel className="p-6">
-            <PanelHeader>TASK — ASSEMBLE CREW</PanelHeader>
+            <PanelHeader>TASK — ASSEMBLE TEAM</PanelHeader>
             <div className="pt-5">
               <div className="rounded-blob border-2 border-[#aebbdd]/70 bg-void/60 p-4">
                 <div className="flex items-center justify-between">
@@ -299,7 +299,7 @@ export default function RegisterPage() {
                 )}
                 {!isSolo && (
                   <Field
-                    label="CREW SIZE"
+                    label="TEAM SIZE"
                     type="number"
                     min={event.min_team_size}
                     max={event.max_team_size}
@@ -325,7 +325,7 @@ export default function RegisterPage() {
                     <div key={i} className="rounded-blob border-2 border-[#aebbdd]/70 bg-void/40 p-4">
                       <div className="mb-3 flex items-center justify-between">
                         <span className="font-display text-xs font-extrabold tracking-widest text-plasma">
-                          {i === 0 ? "★ CREW LEADER — YOU" : `CREW MEMBER ${i + 1}`}
+                          {i === 0 ? "★ TEAM LEADER — YOU" : `TEAM MEMBER ${i + 1}`}
                         </span>
                         {i === 0 && <Lock size={12} className="text-inkdim" />}
                       </div>
@@ -356,12 +356,12 @@ export default function RegisterPage() {
 
         {step === "review" && (
           <Panel className="p-6">
-            <PanelHeader>TASK — CONFIRM DOSSIER</PanelHeader>
+            <PanelHeader>TASK — CONFIRM DETAILS</PanelHeader>
             <div className="pt-5">
               <div className="rounded-blob border-2 border-[#aebbdd]/70 bg-void/60 p-4 font-display text-sm font-bold">
-                <Row k="MISSION" v={event.name} />
+                <Row k="EVENT" v={event.name} />
                 {!isSolo && <Row k="TEAM" v={teamName.trim().toUpperCase()} />}
-                <Row k="CREW SIZE" v={String(teamSize)} />
+                <Row k="TEAM SIZE" v={String(teamSize)} />
                 <Row k="TYPE" v={isCollege ? "COLLEGE (FREE)" : "EXTERNAL"} />
                 <Row k="FEE" v={fmtMoney(fee)} accent />
               </div>
@@ -377,7 +377,7 @@ export default function RegisterPage() {
               <div className="mt-6 flex justify-between">
                 <Button variant="ghost" onClick={() => setStep("team")}>← EDIT</Button>
                 <Button onClick={submitRegistration}>
-                  <Zap size={14} /> {fee > 0 ? "PROCEED TO PAYMENT" : "ACCEPT MISSION"}
+                  <Zap size={14} /> {fee > 0 ? "PROCEED TO PAYMENT" : "CONFIRM REGISTRATION"}
                 </Button>
               </div>
             </div>
@@ -386,7 +386,7 @@ export default function RegisterPage() {
 
         {step === "payment" && (
           <Panel className="p-6">
-            <PanelHeader>TASK — TRANSFER FEE</PanelHeader>
+            <PanelHeader>TASK — SETTLE THE FEE</PanelHeader>
             <div className="pt-5 text-center">
               <div className="font-display text-xs font-extrabold uppercase tracking-[0.3em] text-inkdim">Amount due</div>
               <div className="mt-1 font-display text-5xl font-extrabold text-accent-warm text-glow-warm">{fmtMoney(fee)}</div>
@@ -506,7 +506,7 @@ function SwipeTask({ onDone }: { onDone: () => void }) {
             <div className="h-1.5 w-full rounded-sm bg-inkdim/40" />
             <div className="h-1.5 w-3/4 rounded-sm bg-inkdim/40" />
           </div>
-          <div className="font-display text-[8px] font-extrabold tracking-widest text-inkdim">CREW ID</div>
+          <div className="font-display text-[8px] font-extrabold tracking-widest text-inkdim">GUEST PASS</div>
         </div>
       </div>
       <div className="mt-3 text-center font-display text-[11px] font-bold text-inkdim">
@@ -549,7 +549,7 @@ function UploadBar({ running, onDoneLabel }: { running: boolean; onDoneLabel: st
   );
 }
 
-/** MISSION ACCEPTED — NOVA walks across to celebrate */
+/** Registration complete — MOCHI strolls in to celebrate */
 function DonePanel({ registrationNumber, eventName, color }: { registrationNumber: string; eventName: string; color: string }) {
   const [qr, setQr] = useState("");
   const reduced = useReducedMotion();
@@ -570,7 +570,7 @@ function DonePanel({ registrationNumber, eventName, color }: { registrationNumbe
           animate={{ x: reduced ? 0 : 0 }}
           transition={{ duration: 2.4, ease: "easeInOut" }}
         >
-          <Nova color={color} size={60} walking />
+          <Mochi color={color} size={60} walking />
         </motion.div>
       </div>
       <motion.div
@@ -581,15 +581,15 @@ function DonePanel({ registrationNumber, eventName, color }: { registrationNumbe
       >
         <Check size={32} className="text-signet" />
       </motion.div>
-      <div className="mt-4 font-display text-3xl font-extrabold tracking-wide text-signet">MISSION ACCEPTED</div>
+      <div className="mt-4 font-display text-3xl font-extrabold tracking-wide text-signet">参上 — YOU'RE IN</div>
       <div className="mt-2 font-mono text-lg font-bold text-ink">{registrationNumber}</div>
       <div className="font-display text-xs font-bold text-inkdim">{eventName}</div>
       {qr && (
         <img src={qr} alt="Registration QR pass" className="mx-auto mt-4 rounded-blob border-4 border-plasma/50 bg-void p-2" width={170} height={170} />
       )}
       <div className="mt-6 flex flex-wrap justify-center gap-3">
-        <Button to="/dashboard" size="md">OPEN CREW DECK</Button>
-        <Button to="/events" variant="ghost" size="md">MORE MISSIONS</Button>
+        <Button to="/dashboard" size="md">OPEN MY PASSES</Button>
+        <Button to="/events" variant="ghost" size="md">MORE EVENTS</Button>
       </div>
     </Panel>
   );

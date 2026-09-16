@@ -63,13 +63,13 @@ export default function EventDetailsPage() {
       <div className="mx-auto max-w-3xl px-4 py-20 text-center">
         <div className="font-display text-3xl font-bold tracking-[0.2em] text-alert">SIGNAL LOST</div>
         <p className="mt-2 font-mono text-xs text-inkdim">The requested mission could not be found.</p>
-        <Button to={ROUTES.events} className="mt-6">BACK TO MISSIONS</Button>
+        <Button to={ROUTES.events} className="mt-6">BACK TO EVENTS</Button>
       </div>
     );
   }
 
   const win = regWindowLabel(event);
-  const teamLabel = event.team_based ? `${event.min_team_size}–${event.max_team_size} CREW` : "SOLO MISSION";
+  const teamLabel = event.team_based ? `${event.min_team_size}–${event.max_team_size} TEAM` : "SOLO ENTRY";
 
   return (
     <div className="mx-auto max-w-3xl px-4 pb-20 pt-8 sm:pt-12">
@@ -77,14 +77,14 @@ export default function EventDetailsPage() {
         to={ROUTES.events}
         className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.25em] text-inkdim transition-colors hover:text-plasma"
       >
-        <ArrowLeft size={14} /> BACK TO MISSIONS
+        <ArrowLeft size={14} /> BACK TO EVENTS
       </Link>
 
       {/* Dossier header */}
       <Panel scanlines className="mt-5 p-6 sm:p-8">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <div className="font-mono text-[10px] tracking-[0.35em] text-inkdim">{event.category ?? "MISSION"}</div>
+            <div className="font-mono text-[10px] tracking-[0.35em] text-inkdim">{event.category ?? "EVENT"}</div>
             <h1 className="mt-2 font-display text-3xl font-bold tracking-[0.15em] text-ink sm:text-4xl">
               {event.name}
             </h1>
@@ -99,7 +99,7 @@ export default function EventDetailsPage() {
             <div className="mt-1 text-ink">{fmtDateRange(event.event_date_start, event.event_date_end)}</div>
           </Panel>
           <Panel className="p-3">
-            <div className="text-[9px] tracking-[0.3em] text-plasma">CREW</div>
+            <div className="text-[9px] tracking-[0.3em] text-plasma">TEAM</div>
             <div className="mt-1 text-ink">{teamLabel}</div>
           </Panel>
           <Panel className="p-3">
@@ -151,15 +151,15 @@ export default function EventDetailsPage() {
       <div className="mt-8 text-center">
         {myReg ? (
           <Panel className="inline-block p-5">
-            <div className="font-mono text-[10px] tracking-[0.3em] text-signet">✓ MISSION ALREADY ACCEPTED</div>
+            <div className="font-mono text-[10px] tracking-[0.3em] text-signet">✓ ALREADY REGISTERED</div>
             <div className="mt-2 font-mono text-sm tracking-[0.2em] text-ink">{myReg.registration_number}</div>
             <Button to={ROUTES.dashboard} variant="ghost" size="sm" className="mt-3">
-              VIEW PASS IN CREW DECK
+              VIEW PASS ON MY PASSES
             </Button>
           </Panel>
         ) : win.tone === "open" ? (
           <Button to={ROUTES.register(event.slug)} size="lg" className="w-full sm:w-auto">
-            ACCEPT MISSION →
+            REGISTER →
           </Button>
         ) : (
           <Panel className="inline-block p-5">

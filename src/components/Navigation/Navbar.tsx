@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, LogOut, Volume2, VolumeX } from "lucide-react";
-import Nova from "@/components/Nova";
+import Mochi from "@/components/Mochi";
 import { useAuth } from "@/context/AuthContext";
 import { signOut } from "@/services/auth";
 import { FEST_NAME, FEST_YEAR, ROUTES } from "@/lib/constants";
@@ -35,7 +35,7 @@ export default function Navbar() {
   }, []);
 
   const charColor = localStorage.getItem("nexorium-color") ?? "#4cc9f0";
-  const dashLabel = user ? profile?.full_name?.split(" ")[0]?.toUpperCase() || "CREW" : "LOGIN";
+  const dashLabel = user ? profile?.full_name?.split(" ")[0]?.toUpperCase() || "GUEST" : "LOGIN";
 
   const toggleSound = () => {
     const next = !sound;
@@ -54,7 +54,7 @@ export default function Navbar() {
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link to={ROUTES.home} className="group flex items-center gap-2.5">
           <span className="transition-transform group-hover:-translate-y-0.5">
-            <Nova color={charColor} size={34} />
+            <Mochi color={charColor} size={34} />
           </span>
           <span className="font-display text-lg font-extrabold tracking-wider text-ink">
             {FEST_NAME}

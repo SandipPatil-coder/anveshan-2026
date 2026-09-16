@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Panel, { PanelHeader } from "@/components/ui/Panel";
 import Button from "@/components/ui/Button";
 import Field from "@/components/ui/Field";
-import Nova, { NOVA_COLORS } from "@/components/Nova";
+import Mochi, { MOCHI_COLORS } from "@/components/Mochi";
 import { signUpEmail } from "@/services/auth";
 import { COLLEGE_DOMAIN_HINT } from "@/lib/constants";
 import { sfx } from "@/lib/sfx";
@@ -35,7 +35,7 @@ export default function SignupPage() {
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Signup failed";
-      setError(msg.includes("already registered") ? "This email already has a crew ID — try logging in." : msg);
+      setError(msg.includes("already registered") ? "This email already has a guest pass — try logging in." : msg);
     } finally {
       setBusy(false);
     }
@@ -45,7 +45,7 @@ export default function SignupPage() {
     return (
       <div className="mx-auto max-w-md px-4 pb-20 pt-20 text-center">
         <Panel className="p-8">
-          <div className="font-display text-xl font-extrabold text-accent-warm">VERIFY YOUR COMMS LINE</div>
+          <div className="font-display text-xl font-extrabold text-accent-warm">CHECK YOUR MAILBOX</div>
           <p className="mt-3 font-display text-sm font-bold text-inkdim">
             Confirmation email sent to <span className="text-ink">{email}</span>. Click the link, then log in.
           </p>
@@ -58,9 +58,9 @@ export default function SignupPage() {
   return (
     <div className="mx-auto max-w-md px-4 pb-20 pt-12 sm:pt-16">
       <div className="text-center">
-        <div className="font-display text-[11px] font-extrabold uppercase tracking-[0.4em] text-inkdim">NEW OPERATOR</div>
+        <div className="font-display text-[11px] font-extrabold uppercase tracking-[0.4em] text-inkdim">NEW GUEST</div>
         <h1 className="mt-1 font-display text-3xl font-extrabold text-ink">
-          CREATE YOUR <span className="text-plasma text-glow">CHARACTER</span>
+          DESIGN YOUR <span className="text-plasma text-glow">MOCHI</span>
         </h1>
       </div>
 
@@ -69,10 +69,10 @@ export default function SignupPage() {
         <PanelHeader>PICK YOUR COLOR</PanelHeader>
         <div className="flex flex-col items-center pt-4">
           <motion.div key={color} initial={{ scale: 0.85 }} animate={{ scale: 1 }}>
-            <Nova color={color} size={90} />
+            <Mochi color={color} size={90} />
           </motion.div>
           <div className="mt-4 grid grid-cols-6 gap-2">
-            {NOVA_COLORS.map((c) => (
+            {MOCHI_COLORS.map((c) => (
               <button
                 key={c.value}
                 aria-label={`Color ${c.name}`}
@@ -91,7 +91,7 @@ export default function SignupPage() {
       </Panel>
 
       <Panel className="mt-4">
-        <PanelHeader>CREW REGISTRATION</PanelHeader>
+        <PanelHeader>GUEST REGISTRATION</PanelHeader>
         <form onSubmit={submit} className="space-y-4 p-5">
           <Field
             label="FULL NAME"
@@ -123,13 +123,13 @@ export default function SignupPage() {
           />
           {error && <p className="font-display text-sm font-bold text-alert">{error}</p>}
           <Button type="submit" className="w-full" size="lg" disabled={busy}>
-            {busy ? "CREATING ID…" : "JOIN THE CREW"}
+            {busy ? "PREPARING YOUR PASS…" : "JOIN THE FEST"}
           </Button>
         </form>
       </Panel>
 
       <p className="mt-6 text-center font-display text-xs font-bold tracking-wider text-inkdim">
-        ALREADY CREW?{" "}
+        ALREADY REGISTERED?{" "}
         <Link to="/login" className="text-plasma">
           LOG IN
         </Link>

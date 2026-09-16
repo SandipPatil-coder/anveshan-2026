@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import Button from "@/components/ui/Button";
-import Nova from "@/components/Nova";
+import Mochi from "@/components/Mochi";
 import { ROUTES } from "@/lib/constants";
 
-/** Ejection-screen 404: NOVA drifts across the void */
+/** Lost-in-the-grove 404: MOCHI drifts across the bamboo grove */
 export default function NotFoundPage() {
   return (
     <div className="relative mx-auto flex max-w-xl flex-col items-center overflow-hidden px-4 py-24 text-center">
@@ -20,16 +20,16 @@ export default function NotFoundPage() {
         transition={{ duration: 9, ease: "linear", repeat: Infinity }}
         className="relative z-10"
       >
-        <Nova color="#9b5de5" size={80} />
+        <Mochi color="#9b5de5" size={80} />
       </motion.div>
       <h1 className="relative z-10 mt-6 font-display text-4xl font-extrabold tracking-wide text-ink">
-        CREW LOST IN <span className="text-alert">SPACE</span>
+        MOCHI LOST IN <span className="text-alert">THE GROVE</span>
       </h1>
       <p className="relative z-10 mt-2 font-display text-sm font-bold text-inkdim">
-        This page was ejected into the void. It is not an Impostor — it just doesn't exist.
+        This path leads into the bamboo grove. A tanuki must have moved the sign — this page doesn't exist.
       </p>
       <Button to={ROUTES.home} size="lg" className="relative z-10 mt-8">
-        RETURN TO STATION
+        RETURN TO THE FEST
       </Button>
     </div>
   );

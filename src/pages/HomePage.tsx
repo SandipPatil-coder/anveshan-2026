@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Map as MapIcon, X, Zap } from "lucide-react";
-import Nova from "@/components/Nova";
+import Mochi from "@/components/Mochi";
 import { sfx } from "@/lib/sfx";
 import { useAuth } from "@/context/AuthContext";
 import { FEST_NAME, FEST_YEAR, ROUTES } from "@/lib/constants";
@@ -36,7 +36,7 @@ const KEYMAP: Record<string, [number, number]> = {
   arrowdown: [0, 1], s: [0, 1],
 };
 
-/** Character anchor: NOVA at size 56 ≈ 63px tall + shadow */
+/** Character anchor: MOCHI at size 56 ≈ 63px tall + shadow */
 const CHAR_AX = 28;
 const CHAR_AY = 74;
 
@@ -91,16 +91,16 @@ const PROP_H: Record<RoomDef["flavor"], number> = {
   electrical: 0,
 };
 
-/* ============================ Ship art ============================ */
+/* ============================ Grounds art ============================ */
 
-/** Skeld-style room: dark wall + per-room tinted diamond-checker floor */
+/** Matsuri room: dark wood wall + per-room tinted diamond-checker ground */
 function RoomShell({ room }: { room: RoomDef }) {
   const rect = room.rect;
   return (
     <div className="absolute" style={{ left: rect.x, top: rect.y, width: rect.w, height: rect.h, zIndex: 2 }}>
       <div
-        className="absolute inset-0 rounded-[22px] bg-[#262b33]"
-        style={{ boxShadow: "inset 0 0 0 6px #3a4048, inset 0 10px 0 6px rgba(190,60,90,0.55), 0 14px 34px rgba(0,0,0,0.5)" }}
+        className="absolute inset-0 rounded-[22px] bg-[#241d2c]"
+        style={{ boxShadow: "inset 0 0 0 6px #3d3249, inset 0 10px 0 6px rgba(190,60,90,0.55), 0 14px 34px rgba(0,0,0,0.5)" }}
       />
       <div className="absolute inset-[15px] overflow-hidden rounded-[12px]" style={{ background: room.floor }}>
         <div
@@ -127,10 +127,10 @@ function CorridorShell({ rect }: { rect: Rect }) {
   return (
     <div className="absolute" style={{ left: rect.x, top: rect.y, width: rect.w, height: rect.h, zIndex: 1 }}>
       <div
-        className="absolute inset-0 rounded-[10px] bg-[#262b33]"
-        style={{ boxShadow: "inset 0 0 0 5px #3a4048, inset 0 7px 0 5px rgba(190,60,90,0.4)" }}
+        className="absolute inset-0 rounded-[10px] bg-[#241d2c]"
+        style={{ boxShadow: "inset 0 0 0 5px #3d3249, inset 0 7px 0 5px rgba(190,60,90,0.4)" }}
       />
-      <div className="absolute inset-[11px] overflow-hidden rounded-[6px] bg-[#8a949e]">
+      <div className="absolute inset-[11px] overflow-hidden rounded-[6px] bg-[#5c5468]">
         <div
           className="absolute -inset-[30%]"
           style={{
@@ -144,14 +144,14 @@ function CorridorShell({ rect }: { rect: Rect }) {
   );
 }
 
-/** The hull silhouette floating in black space (like the Skeld exterior) */
-function HullPlate() {
+/** The night-earth plate the grounds sit on, with warm lantern glows to the west */
+function GroundPlate() {
   const plate = (x: number, y: number, w: number, h: number, r: number) => (
     <div
-      className="absolute rounded-[inherit] bg-[#1b2028]"
+      className="absolute rounded-[inherit] bg-[#191423]"
       style={{
         left: x, top: y, width: w, height: h, borderRadius: r,
-        boxShadow: "inset 0 0 0 10px #10141a, inset 0 18px 0 10px rgba(255,255,255,0.03), 0 30px 80px rgba(0,0,0,0.8)",
+        boxShadow: "inset 0 0 0 10px #0f0c17, inset 0 18px 0 10px rgba(255,255,255,0.03), 0 30px 80px rgba(0,0,0,0.8)",
       }}
     />
   );
@@ -160,7 +160,7 @@ function HullPlate() {
       {plate(110, 300, 230, 470, 110)}
       {plate(220, 70, 1360, 910, 190)}
       {plate(1500, 350, 130, 350, 90)}
-      {/* Cyan thruster flames on the left engines */}
+      {/* Warm lantern glows along the west edge (bamboo grove / zen garden) */}
       {[
         { x: 28, y: 350, w: 120, h: 130 },
         { x: 6, y: 490, w: 150, h: 150 },
@@ -171,7 +171,7 @@ function HullPlate() {
           className="absolute rounded-[50%]"
           style={{
             left: f.x, top: f.y, width: f.w, height: f.h,
-            background: "radial-gradient(ellipse at 80% 50%, rgba(140,230,255,0.95), rgba(80,180,255,0.45) 55%, transparent 75%)",
+            background: "radial-gradient(ellipse at 80% 50%, rgba(255,209,102,0.9), rgba(255,143,90,0.4) 55%, transparent 75%)",
             filter: "blur(6px)",
           }}
         />
@@ -180,13 +180,13 @@ function HullPlate() {
   );
 }
 
-/** Non-interactive round table (fills the cafeteria like the reference image) */
+/** Non-interactive round table (fills the torii plaza like the reference image) */
 function DecoTable({ x, y }: { x: number; y: number }) {
   return (
     <div className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y, zIndex: Math.round(y) }}>
       <div
-        className="h-[52px] w-[88px] rounded-[50%] border-[5px] border-[#2e5d80] bg-[#39729c]"
-        style={{ boxShadow: "0 8px 0 rgba(0,0,0,0.25), inset 0 5px 0 rgba(255,255,255,0.18)" }}
+        className="h-[52px] w-[88px] rounded-[50%] border-[5px] border-[#8f2f38] bg-[#c94a52]"
+        style={{ boxShadow: "0 8px 0 rgba(0,0,0,0.25), inset 0 5px 0 rgba(255,255,255,0.22)" }}
       />
       <div className="mx-auto -mt-1.5 h-3 w-[80%] rounded-[50%] bg-black/25 blur-[2px]" />
     </div>
@@ -197,121 +197,129 @@ function DecoTable({ x, y }: { x: number; y: number }) {
 
 function PropArt({ flavor, color }: { flavor: RoomDef["flavor"]; color: string }) {
   switch (flavor) {
-    case "cafeteria": // Emergency table — center of the cafeteria
+    case "cafeteria": // Vermilion torii gate — center of the grounds
       return (
         <div className="relative" style={{ width: 210, height: 128 }}>
-          <div
-            className="absolute inset-x-0 top-1 h-[96px] rounded-[50%] border-[7px] border-[#2e5d80] bg-[#39729c]"
-            style={{ boxShadow: "0 10px 0 rgba(0,0,0,0.28), inset 0 6px 0 rgba(255,255,255,0.18)" }}
-          />
-          <div className="absolute left-1/2 top-[28px] -translate-x-1/2">
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <div className="h-14 w-14 animate-ping rounded-full bg-[#ef476f]/40" />
-            </div>
-            <div
-              className="relative h-12 w-12 rounded-full border-4 border-[#a3263a] bg-[#ef476f]"
-              style={{ boxShadow: "0 5px 0 rgba(0,0,0,0.35), inset 0 4px 0 rgba(255,255,255,0.4)" }}
-            />
+          <div className="absolute inset-x-0 top-[112px] h-3 rounded-full bg-black/30 blur-[2px]" />
+          <div className="absolute left-1/2 top-2 h-[108px] w-[168px] -translate-x-1/2">
+            <div className="absolute -top-1.5 left-1/2 h-[13px] w-[184px] -translate-x-1/2 rounded-[4px] bg-[#2b1d1d] shadow-[0_4px_0_rgba(0,0,0,0.25)]" />
+            <div className="absolute left-1/2 top-[13px] h-[9px] w-[168px] -translate-x-1/2 rounded-[3px] bg-[#d93838] shadow-[0_3px_0_rgba(0,0,0,0.22)]" />
+            <div className="absolute left-0 top-[22px] h-[74px] w-[13px] rounded-t-[3px] bg-[#e04545] shadow-[inset_-3px_0_0_rgba(0,0,0,0.15)]" />
+            <div className="absolute right-0 top-[22px] h-[74px] w-[13px] rounded-t-[3px] bg-[#e04545] shadow-[inset_-3px_0_0_rgba(0,0,0,0.15)]" />
+            <div className="absolute left-1/2 top-[30px] h-[9px] w-[132px] -translate-x-1/2 bg-[#d93838]" />
           </div>
           <div className="absolute inset-x-0 top-[100px] text-center font-display font-extrabold tracking-[0.28em] text-white">
-            EMERGENCY
+            参上
           </div>
         </div>
       );
-    case "board": // Corkboard with sticky notes
+    case "board": // Ema board — wooden plaques hung in rows
       return (
         <div className="relative" style={{ width: 176, height: 138 }}>
           <div
-            className="absolute inset-x-1 top-0 h-[100px] rounded-xl border-4 border-[#6b4b2a] bg-[#3b2f22] p-2"
+            className="absolute inset-x-1 top-0 h-[100px] rounded-xl border-4 border-[#7a5a34] bg-[#f3e6cf] p-2"
             style={{ boxShadow: "0 7px 0 rgba(0,0,0,0.3)" }}
           >
-            <div className="grid h-full grid-cols-3 gap-1.5">
-              {["#ffb703", "#4cc9f0", "#f15bb5", "#8ac926", "#ef476f", "#e0fbfc"].map((c) => (
-                <div key={c} className="rounded-[4px] opacity-90" style={{ background: c }} />
+            <div className="flex h-full items-end justify-around px-1">
+              {["#f3d9b1", "#e8c9a0", "#f3d9b1", "#e8c9a0", "#f3d9b1", "#e8c9a0"].map((c, i) => (
+                <div key={i} className="relative">
+                  <div className="mx-auto h-2 w-1 bg-[#8a6b45]" />
+                  <div className="h-7 w-6 rounded-b-[6px] rounded-t-[3px]" style={{ background: c }} />
+                </div>
               ))}
             </div>
           </div>
-          <div className="absolute bottom-2 left-9 h-9 w-2.5 rounded-sm bg-[#6b4b2a]" />
-          <div className="absolute bottom-2 right-9 h-9 w-2.5 rounded-sm bg-[#6b4b2a]" />
+          <div className="absolute bottom-2 left-9 h-9 w-2.5 rounded-sm bg-[#7a5a34]" />
+          <div className="absolute bottom-2 right-9 h-9 w-2.5 rounded-sm bg-[#7a5a34]" />
           <div className="absolute inset-x-0 bottom-0 text-center font-display font-extrabold tracking-[0.28em] text-white">
-            MISSIONS
+            EMA
           </div>
         </div>
       );
-    case "console": // Timeline nav console
+    case "console": // Hanging paper schedule scroll
       return (
         <div className="relative" style={{ width: 176, height: 132 }}>
-          <div className="absolute left-1/2 top-0 h-4 w-1.5 -translate-x-1/2 bg-[#3a4048]" />
-          <div className="absolute left-1/2 top-0 h-4 w-8 -translate-x-1/2 rounded-t-full bg-[#3a4048]" />
+          <div className="absolute left-1/2 top-0 h-4 w-1.5 -translate-x-1/2 bg-[#3d3249]" />
+          <div className="absolute left-1/2 top-0 h-4 w-8 -translate-x-1/2 rounded-t-full bg-[#3d3249]" />
           <div
-            className="absolute inset-x-0 top-3 h-[92px] rounded-xl border-4 border-[#2b3a63] bg-[#101726] p-2.5"
-            style={{ boxShadow: "0 0 18px rgba(76,201,240,0.25), 0 7px 0 rgba(0,0,0,0.3)" }}
+            className="absolute inset-x-0 top-3 h-[92px] rounded-md border-4 border-[#8a6b45] bg-[#f7efdc] p-2.5"
+            style={{ boxShadow: "0 0 18px rgba(255,171,94,0.25), 0 7px 0 rgba(0,0,0,0.3)" }}
           >
             <div className="flex h-full flex-col justify-center gap-1.5">
               {[92, 70, 82, 55].map((w, i) => (
-                <div key={i} className="h-2 rounded-full" style={{ width: `${w}%`, background: ["#4cc9f0", "#ffb703", "#8ac926", "#f15bb5"][i], opacity: 0.85 }} />
+                <div key={i} className="h-2 rounded-full" style={{ width: `${w}%`, background: ["#e04545", "#ffab5e", "#8ac926", "#ff8fab"][i], opacity: 0.85 }} />
               ))}
             </div>
           </div>
           <div className="absolute inset-x-0 bottom-0 text-center font-display font-extrabold tracking-[0.28em] text-white">
-            TIMELINE
+            SCHEDULE
           </div>
         </div>
       );
-    case "bunks": // Crew quarters
+    case "bunks": // Omamori charm rack
       return (
         <div className="relative" style={{ width: 186, height: 126 }}>
           <div
-            className="absolute right-0 top-0 h-[92px] w-11 rounded-md border-4 border-[#2e5d80] bg-[#39729c]"
-            style={{ boxShadow: "0 6px 0 rgba(0,0,0,0.3), inset 0 4px 0 rgba(255,255,255,0.18)" }}
+            className="absolute right-0 top-0 h-[92px] w-11 rounded-md border-4 border-[#8a6b45] bg-[#c9a86a]"
+            style={{ boxShadow: "0 6px 0 rgba(0,0,0,0.3), inset 0 4px 0 rgba(255,255,255,0.25)" }}
           >
-            <div className="mx-auto mt-2.5 h-1.5 w-6 rounded-full bg-[#e0fbfc]/70" />
-            <div className="mx-auto mt-2 h-1.5 w-6 rounded-full bg-[#e0fbfc]/70" />
+            <div className="mx-auto mt-2.5 h-1.5 w-6 rounded-full bg-[#3d2f1f]/60" />
+            <div className="mx-auto mt-2 h-1.5 w-6 rounded-full bg-[#3d2f1f]/60" />
           </div>
           {[0, 1].map((b) => (
             <div
               key={b}
-              className="absolute left-0 rounded-md border-4 border-[#2e5d80] bg-[#c9d3dc]"
-              style={{ top: b * 44, width: 118, height: 40, boxShadow: "0 5px 0 rgba(0,0,0,0.3), inset 0 4px 0 rgba(255,255,255,0.5)" }}
+              className="absolute left-0 flex items-start gap-1.5"
+              style={{ top: b * 44, width: 118, height: 40 }}
             >
-              <div className="m-1.5 h-3 w-8 rounded-full" style={{ background: color, opacity: 0.85 }} />
+              {["#e04545", "#ffab5e", "#3ddc84", color].map((c, i) => (
+                <div key={i} className="relative">
+                  <div className="mx-auto h-2 w-[3px] bg-[#3d2f1f]/70" />
+                  <div
+                    className="flex h-8 w-7 items-center justify-center rounded-b-[9px] rounded-t-[3px] border-2 border-[#3d2f1f]/40"
+                    style={{ background: c, boxShadow: "0 4px 0 rgba(0,0,0,0.2)" }}
+                  >
+                    <span className="text-[7px] font-black text-white/90">守</span>
+                  </div>
+                </div>
+              ))}
             </div>
           ))}
           <div className="absolute inset-x-0 bottom-0 text-center font-display font-extrabold tracking-[0.28em] text-white">
-            CREW
+            OMAMORI
           </div>
         </div>
       );
-    case "comms": // Antenna console
+    case "comms": // Stone tōrō lantern
       return (
         <div className="relative" style={{ width: 170, height: 130 }}>
-          <div className="absolute left-1/2 top-0 h-6 w-1.5 -translate-x-1/2 bg-[#3a4048]" />
-          <div className="absolute left-1/2 top-0 h-6 w-6 -translate-x-1/2 rounded-full border-4 border-[#e0fbfc] bg-[#4cc9f0]/30" />
+          <div className="absolute left-1/2 top-0 h-6 w-1.5 -translate-x-1/2 bg-[#3d3249]" />
+          <div className="absolute left-1/2 top-0 h-6 w-6 -translate-x-1/2 rounded-full border-4 border-[#fdf6ec] bg-[#ffab5e]/30" />
           <div
-            className="absolute inset-x-0 top-5 h-[90px] rounded-xl border-4 border-[#2b3a63] bg-[#101726] p-2.5"
-            style={{ boxShadow: "0 0 18px rgba(76,201,240,0.25), 0 7px 0 rgba(0,0,0,0.3)" }}
+            className="absolute inset-x-0 top-5 h-[90px] rounded-md border-4 border-[#6b6577] bg-[#4a4655] p-2.5"
+            style={{ boxShadow: "0 0 18px rgba(255,171,94,0.25), 0 7px 0 rgba(0,0,0,0.3)" }}
           >
             <div className="flex h-full items-center justify-center gap-1.5">
               {[34, 24, 14].map((s) => (
-                <div key={s} className="rounded-full border-2 border-[#4cc9f0]/70" style={{ width: s, height: s }} />
+                <div key={s} className="rounded-full border-2 border-[#ffd166]/80 bg-[#ffd166]/25" style={{ width: s, height: s }} />
               ))}
             </div>
           </div>
           <div className="absolute inset-x-0 bottom-0 text-center font-display font-extrabold tracking-[0.28em] text-white">
-            COMMS
+            TEA HOUSE
           </div>
         </div>
       );
-    case "reactor": // Glowing core
+    case "reactor": // Giant glowing chōchin lantern
       return (
         <div className="relative flex flex-col items-center" style={{ width: 130, height: 136 }}>
           <div
-            className="flex h-[104px] w-[104px] items-center justify-center rounded-full border-8 border-[#2b3a63] bg-[#123043]"
-            style={{ boxShadow: "0 0 34px rgba(76,201,240,0.55), 0 8px 0 rgba(0,0,0,0.3)" }}
+            className="flex h-[104px] w-[104px] items-center justify-center rounded-[50%] border-8 border-[#8f2f38] bg-[#ffab5e]"
+            style={{ boxShadow: "0 0 34px rgba(255,171,94,0.6), 0 8px 0 rgba(0,0,0,0.3)" }}
           >
-            <div className="h-10 w-10 animate-pulse rounded-full bg-[#4cc9f0]" style={{ boxShadow: "0 0 18px rgba(76,201,240,0.9)" }} />
+            <span className="animate-pulse font-display text-2xl font-black text-[#8f2f38]">祭</span>
           </div>
-          <div className="mt-1 font-display font-extrabold tracking-[0.28em] text-white">REACTOR</div>
+          <div className="mt-1 font-display font-extrabold tracking-[0.28em] text-white">MAIN SHRINE</div>
         </div>
       );
     default:
@@ -368,7 +376,7 @@ export default function HomePage() {
     };
   }, []);
 
-  /** Logged-in: how many missions this crewmate has accepted (real count for the CREW DECK room) */
+  /** Logged-in: how many events this guest registered (real count for the Dojo room) */
   useEffect(() => {
     if (!user) {
       setRegsCount(0);
@@ -692,11 +700,11 @@ export default function HomePage() {
       onClick={tapWalk}
       className="game-viewport relative w-full select-none overflow-hidden touch-none"
       role="application"
-      aria-label={`${FEST_NAME} ship map — walk with WASD, the stick, or tap, press E to use`}
+      aria-label={`${FEST_NAME} matsuri map — walk with WASD, the stick, or tap, press E to use`}
     >
-      {/* ======================= THE SHIP (world space) ======================= */}
+      {/* ======================= THE GROUNDS (world space) ======================= */}
       <div ref={worldRef} className="absolute left-0 top-0 origin-top-left will-change-transform" style={{ width: WORLD_W, height: WORLD_H }}>
-        <HullPlate />
+        <GroundPlate />
         {CORRIDORS.map((c, i) => (
           <CorridorShell key={i} rect={c} />
         ))}
@@ -728,7 +736,7 @@ export default function HomePage() {
           />
         ))}
 
-        {/* Cafeteria decoration — corner tables like the reference */}
+        {/* Torii plaza decoration — corner tables like the reference */}
         <DecoTable x={892} y={182} />
         <DecoTable x={1072} y={182} />
         <DecoTable x={892} y={392} />
@@ -767,11 +775,11 @@ export default function HomePage() {
           );
         })}
 
-        {/* NOVA — painted at 60fps via transform */}
+        {/* MOCHI — painted at 60fps via transform */}
         <div ref={charRef} className="pointer-events-none absolute left-0 top-0" style={{ zIndex: Math.round(SPAWN.y) }}>
           <div className="flex flex-col items-center">
             <div className={moving ? "nova-bob" : ""}>
-              <Nova color={charColor} size={56} walking={moving} flip={facing === "left"} />
+              <Mochi color={charColor} size={56} walking={moving} flip={facing === "left"} />
             </div>
             <div className="-mt-1.5 h-2.5 w-11 rounded-[50%] bg-black/30 blur-[1.5px]" />
           </div>
@@ -786,7 +794,7 @@ export default function HomePage() {
           {FEST_NAME} <span className="text-white/60">{FEST_YEAR}</span>
           <span className="ml-2 hidden text-[11px] text-white/60 sm:ml-3 sm:inline">
             <i className="mr-1 inline-block h-2 w-2 rounded-full bg-[#3ddc84]" />
-            {events.length || "--"} MISSIONS · {openCount || "--"} OPEN
+            {events.length || "--"} EVENTS · {openCount || "--"} OPEN
           </span>
         </div>
       </div>
@@ -922,7 +930,7 @@ export default function HomePage() {
             }}
             className="btn-3d flex h-16 w-16 flex-col items-center justify-center gap-0.5 rounded-full border-2 border-[#08110b]/40 bg-[#3ddc84] text-[#08110b] transition-transform active:translate-y-0.5"
             style={{ touchAction: "manipulation" }}
-            aria-label="Open ship map"
+            aria-label="Open matsuri map"
           >
             <MapIcon size={20} strokeWidth={3} />
             <span className="font-display text-[8px] font-black tracking-[0.2em]">MAP</span>
@@ -937,7 +945,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* ======================= FULL-SHIP MAP OVERLAY ======================= */}
+      {/* ======================= FULL-GROUNDS MAP OVERLAY ======================= */}
       {mapOpen && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -947,12 +955,12 @@ export default function HomePage() {
         >
           <div className="pointer-events-none absolute left-1/2 top-5 -translate-x-1/2 text-center">
             <div className="font-display text-xl font-extrabold tracking-[0.3em] text-white">
-              {FEST_NAME}-1 · SHIP MAP
+              {FEST_NAME} · MATSURI MAP
             </div>
             <div className="mt-1 font-display text-[10px] font-bold tracking-[0.3em] text-white/50">
               {user
-                ? `CREWMATE ${displayName ?? "UNKNOWN"} · ${regsCount} MISSION${regsCount === 1 ? "" : "S"} ACCEPTED`
-                : "TAP A ROOM — NOVA WALKS THERE AND USES IT"}
+                ? `GUEST ${displayName ?? "UNKNOWN"} · ${regsCount} EVENT${regsCount === 1 ? "" : "S"} REGISTERED`
+                : "TAP A ROOM — MOCHI WALKS THERE AND USES IT"}
             </div>
           </div>
           <button
@@ -970,7 +978,7 @@ export default function HomePage() {
           >
             <div className="absolute left-0 top-0 origin-top-left" style={{ width: WORLD_W, height: WORLD_H, transform: `scale(${mapScale})` }}>
               {CORRIDORS.map((c, i) => (
-                <div key={i} className="absolute rounded-[10px] bg-[#3a4150]" style={{ left: c.x, top: c.y, width: c.w, height: c.h }} />
+                <div key={i} className="absolute rounded-[10px] bg-[#3d3249]" style={{ left: c.x, top: c.y, width: c.w, height: c.h }} />
               ))}
               {ROOMS.map((r) => {
                 const count = r.task ? roomCounts[r.task.id] ?? 0 : 0;
@@ -989,7 +997,7 @@ export default function HomePage() {
                         className="mt-[0.15em] whitespace-nowrap rounded-full bg-black/45 px-[0.6em] font-display font-black text-[#3ddc84]"
                         style={{ fontSize: fs(9) }}
                       >
-                        {count} {count === 1 ? "MISSION" : "MISSIONS"}
+                        {count} {count === 1 ? "EVENT" : "EVENTS"}
                       </span>
                     )}
                   </>
@@ -1015,7 +1023,7 @@ export default function HomePage() {
                       goTask(room);
                       setMapOpen(false);
                     }}
-                    className={`${base} border-[#8f3e56]/80 hover:z-10 hover:scale-[1.03] hover:border-[#3ddc84] hover:shadow-[0_0_24px_rgba(61,220,132,0.35)] focus-visible:border-[#3ddc84] focus-visible:outline-none`}
+                    className={`${base} border-[#b0556b]/80 hover:z-10 hover:scale-[1.03] hover:border-[#ffab5e] hover:shadow-[0_0_24px_rgba(255,171,94,0.35)] focus-visible:border-[#ffab5e] focus-visible:outline-none`}
                     style={{ left: r.rect.x, top: r.rect.y, width: r.rect.w, height: r.rect.h, background: r.floor }}
                   >
                     {label}

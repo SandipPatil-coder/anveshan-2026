@@ -2,21 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ---- Design tokens (spec §61) — playful space-station edition ---- */
+/* ---- Design tokens — night matsuri edition (紺夜の祭) ---- */
 :root {
   color-scheme: dark;
-  --background: #000000;
-  --surface: rgba(52, 64, 90, 0.92);
-  --surface-elevated: rgba(68, 82, 110, 0.95);
-  --text: #f2f6ff;
-  --text-muted: #9fb0d8;
-  --accent: #4cc9f0;
-  --accent-deep: #2286a8;
-  --accent-warm: #ffb703;
-  --success: #3ddc84;
-  --warning: #ffb703;
-  --danger: #ef476f;
-  --border: rgba(214, 226, 255, 0.3);
+  --background: #0d0d1a; /* kon — deep indigo night */
+  --surface: rgba(58, 44, 66, 0.92); /* indigo-plum glass */
+  --surface-elevated: rgba(74, 56, 82, 0.95);
+  --text: #fdf6ec; /* washi paper */
+  --text-muted: #c9b8d4;
+  --accent: #ffab5e; /* chochin lantern orange */
+  --accent-deep: #c26d2c;
+  --accent-warm: #ff8fab; /* sakura pink */
+  --success: #3ddc84; /* matcha */
+  --warning: #ffd166; /* kinpaku gold */
+  --danger: #ef476f; /* shu vermilion */
+  --border: rgba(253, 246, 236, 0.28);
 }
 
 html {
@@ -46,7 +46,7 @@ input, textarea, select, button {
 }
 
 ::selection {
-  background: rgba(76, 201, 240, 0.4);
+  background: rgba(255, 171, 94, 0.4);
   color: #ffffff;
 }
 
@@ -56,19 +56,19 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-text-fill-color: #f2f6ff;
-  -webkit-box-shadow: 0 0 0 1000px #0b1120 inset;
-  caret-color: #f2f6ff;
+  -webkit-text-fill-color: #fdf6ec;
+  -webkit-box-shadow: 0 0 0 1000px #141224 inset;
+  caret-color: #fdf6ec;
   border-radius: 12px;
   transition: background-color 9999s ease-in-out 0s;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(76, 201, 240, 0.35) transparent;
+  scrollbar-color: rgba(255, 171, 94, 0.35) transparent;
 }
 *::-webkit-scrollbar { width: 8px; height: 8px; }
-*::-webkit-scrollbar-thumb { background: rgba(76, 201, 240, 0.3); border-radius: 8px; }
+*::-webkit-scrollbar-thumb { background: rgba(255, 171, 94, 0.3); border-radius: 8px; }
 *::-webkit-scrollbar-track { background: transparent; }
 
 @layer utilities {
@@ -76,10 +76,10 @@ input:-webkit-autofill:active {
   .clip-panel { border-radius: 20px; }
   .clip-tag { border-radius: 999px; }
   .clip-blob { border-radius: 28px; }
-  .text-glow { text-shadow: 0 0 16px rgba(76, 201, 240, 0.6); }
-  .text-glow-warm { text-shadow: 0 0 16px rgba(255, 183, 3, 0.6); }
-  .btn-3d { box-shadow: 0 5px 0 0 rgba(9, 16, 38, 0.9), 0 8px 18px rgba(0, 0, 0, 0.35); }
-  .btn-3d-sm { box-shadow: 0 3px 0 0 rgba(9, 16, 38, 0.9); }
+  .text-glow { text-shadow: 0 0 16px rgba(255, 171, 94, 0.6); }
+  .text-glow-warm { text-shadow: 0 0 16px rgba(255, 143, 171, 0.6); }
+  .btn-3d { box-shadow: 0 5px 0 0 rgba(10, 8, 20, 0.9), 0 8px 18px rgba(0, 0, 0, 0.35); }
+  .btn-3d-sm { box-shadow: 0 3px 0 0 rgba(10, 8, 20, 0.9); }
   /* Task progress stripes (upload bar) */
   .task-stripes {
     background-image: linear-gradient(
@@ -104,7 +104,7 @@ input:-webkit-autofill:active {
 }
 .animate-wiggle { animation: wiggle 0.4s ease-in-out infinite; }
 
-/* NOVA walk cycles */
+/* MOCHI walk cycles (keyframe names kept stable) */
 @keyframes novaStepA {
   from { transform: translateY(0) rotate(4deg); }
   to { transform: translateY(-4px) rotate(-10deg); }

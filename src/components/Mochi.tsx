@@ -1,4 +1,4 @@
-interface NovaProps {
+interface MochiProps {
   color?: string;
   size?: number;
   walking?: boolean;
@@ -16,12 +16,13 @@ function shade(hex: string, amt: number): string {
 }
 
 /**
- * NOVA — the station crewmate. Bean-shaped body with a thick outline, big
- * rounded visor, side backpack and two stubby legs — hand-drawn SVG, no game
- * assets copied. The walk cycle swings each leg around its own hip with a
- * slow ease-in-out alternate gait, synced with the bob keyframe.
+ * MOCHI (餅) — the festival mascot. A plump dango-mochi bean with big kawaii
+ * eyes, blush marks, an omamori charm on its back and two stubby legs —
+ * hand-drawn SVG, no game assets copied. The walk cycle swings each leg around
+ * its own hip with a slow ease-in-out alternate gait, synced with the bob
+ * keyframe (keyframe names kept from the previous mascot for stability).
  */
-export default function Nova({ color = "#4cc9f0", size = 64, walking = false, className = "", flip = false }: NovaProps) {
+export default function Mochi({ color = "#4cc9f0", size = 64, walking = false, className = "", flip = false }: MochiProps) {
   const dark = shade(color, -60); // limbs + shading
   const outline = shade(color, -85); // thick cartoon outline
   const light = shade(color, 45); // top highlight
@@ -44,7 +45,7 @@ export default function Nova({ color = "#4cc9f0", size = 64, walking = false, cl
       style={{ transform: flip ? "scaleX(-1)" : undefined, overflow: "visible" }}
       aria-hidden
     >
-      {/* Backpack (rides on the back, behind the body) */}
+      {/* Omamori charm (rides on the back, behind the body) */}
       <rect x="3" y="17" width="14" height="29" rx="6.5" fill={dark} stroke={outline} strokeWidth="2" />
       {/* Legs — smooth lazy gait, each rotating around its own hip */}
       <rect x="17" y="49" width="12" height="18" rx="5.5" fill={color} stroke={outline} strokeWidth="2.5" style={legStyle("novaStepA")} />
@@ -58,25 +59,29 @@ export default function Nova({ color = "#4cc9f0", size = 64, walking = false, cl
       />
       {/* Top highlight */}
       <path d="M18 22 C19 13 24 10 32 10 C40 10 45 13 46 22 C40 18 24 18 18 22 Z" fill={light} opacity="0.45" />
-      {/* Visor — big, rounded, slightly poking past the body */}
-      <rect x="23" y="15" width="30" height="16" rx="8" fill="#9fd8e8" stroke={outline} strokeWidth="2.5" />
-      <rect x="25" y="17.5" width="26" height="11" rx="5.5" fill="#c9ecf7" opacity="0.55" />
-      <ellipse cx="31" cy="21" rx="4.5" ry="2.4" fill="#ffffff" opacity="0.9" />
+      {/* Kawaii face — two oval eyes with sparkle + blush */}
+      <ellipse cx="27" cy="26" rx="2.6" ry="4.2" fill={outline} />
+      <ellipse cx="37" cy="26" rx="2.6" ry="4.2" fill={outline} />
+      <circle cx="27.9" cy="24.6" r="0.9" fill="#ffffff" opacity="0.9" />
+      <circle cx="37.9" cy="24.6" r="0.9" fill="#ffffff" opacity="0.9" />
+      <ellipse cx="21.5" cy="30" rx="3" ry="1.7" fill="#ff8fab" opacity="0.55" />
+      <ellipse cx="42.5" cy="30" rx="3" ry="1.7" fill="#ff8fab" opacity="0.55" />
     </svg>
   );
 }
 
-export const NOVA_COLORS: { name: string; value: string }[] = [
-  { name: "Cyan", value: "#4cc9f0" },
-  { name: "Magenta", value: "#f15bb5" },
-  { name: "Amber", value: "#ffb703" },
-  { name: "Lime", value: "#8ac926" },
-  { name: "Coral", value: "#ff5d6c" },
-  { name: "Violet", value: "#9b5de5" },
-  { name: "Crimson", value: "#e5383b" },
-  { name: "Arctic", value: "#e0fbfc" },
-  { name: "Tangerine", value: "#ff924c" },
-  { name: "Mint", value: "#7be0c3" },
-  { name: "Ocean", value: "#3d6ef7" },
-  { name: "Slate", value: "#8d99ae" },
+/** Palette uses the same hex values as before, so returning users keep their color */
+export const MOCHI_COLORS: { name: string; value: string }[] = [
+  { name: "Sakura", value: "#ff8fab" },
+  { name: "Yamabuki", value: "#ffb703" },
+  { name: "Wakaba", value: "#8ac926" },
+  { name: "Mikan", value: "#ff924c" },
+  { name: "Sumire", value: "#9b5de5" },
+  { name: "Fuji", value: "#f15bb5" },
+  { name: "Shu", value: "#e5383b" },
+  { name: "Yuki", value: "#e0fbfc" },
+  { name: "Mizu", value: "#4cc9f0" },
+  { name: "Matcha", value: "#7be0c3" },
+  { name: "Ai", value: "#3d6ef7" },
+  { name: "Sumi", value: "#8d99ae" },
 ];

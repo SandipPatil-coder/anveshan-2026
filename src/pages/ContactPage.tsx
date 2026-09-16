@@ -11,8 +11,8 @@ const CHANNELS = [
 
 const FAQ = [
   { q: "WHO CAN REGISTER?", a: "Any student. College students (verified by email domain) register free; external students pay a small fee per event." },
-  { q: "HOW DO I JOIN A TEAM?", a: "Open the event, press ACCEPT MISSION, and add crew members in the registration wizard. You are the crew leader by default." },
-  { q: "WHERE IS MY PASS?", a: "After confirmation, your QR pass lives in the CREW DECK (dashboard). Show it at the gate for check-in." },
+  { q: "HOW DO I JOIN A TEAM?", a: "Open the event, press REGISTER, and add team members in the registration wizard. You are the team leader by default." },
+  { q: "WHERE IS MY PASS?", a: "After confirmation, your QR pass lives on MY PASSES (dashboard). Show it at the gate for check-in." },
   { q: "CAN I REGISTER FOR MULTIPLE EVENTS?", a: "Yes — one active registration per event, as many events as you can survive." },
 ];
 
@@ -22,7 +22,7 @@ export default function ContactPage() {
       <header className="text-center">
         <div className="font-mono text-[10px] tracking-[0.45em] text-inkdim">COMMS TERMINAL</div>
         <h1 className="mt-3 font-display text-4xl font-bold tracking-[0.15em] text-ink">
-          CONTACT <span className="text-plasma text-glow">MISSION CONTROL</span>
+          CONTACT <span className="text-plasma text-glow">THE TEA HOUSE</span>
         </h1>
       </header>
 

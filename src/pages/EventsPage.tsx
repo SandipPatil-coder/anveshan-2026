@@ -44,7 +44,7 @@ export default function EventsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 pb-20 pt-10 sm:pt-14">
       <header className="text-center">
-        <div className="font-mono text-[10px] tracking-[0.45em] text-inkdim">MISSION SELECTOR</div>
+        <div className="font-mono text-[10px] tracking-[0.45em] text-inkdim">EVENT SELECTOR</div>
         <h1 className="mt-3 font-display text-4xl font-bold tracking-[0.15em] text-ink sm:text-5xl">
           TASK <span className="text-plasma text-glow">BOARD</span>
         </h1>
@@ -128,7 +128,7 @@ export default function EventsPage() {
           <SearchX className="mx-auto h-8 w-8 text-inkdim" />
           <div className="mt-3 font-display text-lg font-bold tracking-[0.2em] text-ink">NO TASKS ON THE BOARD</div>
           <p className="mt-1 font-mono text-[11px] text-inkdim">The ship is quiet… check again later.</p>
-          <Button to="/" variant="ghost" className="mt-5">RETURN TO SHIP</Button>
+          <Button to="/" variant="ghost" className="mt-5">RETURN TO THE FEST</Button>
         </div>
       )}
 
@@ -146,7 +146,7 @@ export default function EventsPage() {
 
 function EventCard({ event: ev }: { event: FestEvent }) {
   const win = regWindowLabel(ev);
-  const teamLabel = ev.team_based ? `CREW OF ${ev.min_team_size}–${ev.max_team_size}` : "SOLO MISSION";
+  const teamLabel = ev.team_based ? `TEAM OF ${ev.min_team_size}–${ev.max_team_size}` : "SOLO ENTRY";
   const statusLabel =
     win.tone === "open" ? "TASK AVAILABLE" : win.tone === "soon" ? "UPCOMING" : "COMPLETED";
   return (

@@ -1,6 +1,6 @@
 import { ROUTES } from "@/lib/constants";
 
-/** World-space rectangle (the ship lives on a 1640×1040 canvas) */
+/** World-space rectangle (the festival grounds live on a 1640×1040 canvas) */
 export interface Rect {
   x: number;
   y: number;
@@ -9,8 +9,9 @@ export interface Rect {
 }
 
 /**
- * Room flavors drive the prop art: task rooms (cafeteria, board, console,
- * bunks, comms, reactor) plus decorative Skeld-style rooms.
+ * Room flavors drive the prop art: task rooms (cafeteria→torii, board→ema,
+ * console→scroll, bunks→omamori, comms→tōrō, reactor→chōchin) plus decorative
+ * grounds rooms. Flavor names are kept for prop-art dispatch.
  */
 export type RoomFlavor =
   | "cafeteria"
@@ -27,7 +28,7 @@ export type RoomFlavor =
   | "shields"
   | "electrical";
 
-/** The interactive station prop inside a room — bridges the game to the site */
+/** The interactive festival prop inside a room — bridges the game to the site */
 export interface RoomTask {
   id: string;
   label: string;
@@ -36,7 +37,7 @@ export interface RoomTask {
   /** Prop position (world units, anchor = bottom-center of the prop art) */
   x: number;
   y: number;
-  /** Where NOVA stands to use it */
+  /** Where MOCHI stands to use it */
   targetX: number;
   targetY: number;
 }
@@ -45,7 +46,7 @@ export interface RoomDef {
   id: string;
   name: string;
   rect: Rect;
-  /** Floor tint (Skeld-style: every room has its own color) */
+  /** Floor tint (matsuri-style: every room has its own color) */
   floor: string;
   flavor: RoomFlavor;
   task: RoomTask | null;
@@ -62,73 +63,74 @@ export const PROXIMITY = 120;
 export const SPAWN = { x: 980, y: 400 };
 
 /* ------------------------------------------------------------------ */
-/* Ship layout — modelled on the classic Skeld arrangement            */
-/* Engines + reactor on the left, cafeteria top-center, navigation    */
-/* at the right tip, storage/electrical/comms along the bottom.       */
+/* Matsuri grounds — topography of the old station, festival-hearted: */
+/* main shrine + zen garden on the left, torii gate top-center,       */
+/* stage at the right end, tea stalls and lantern alley along the     */
+/* bottom.                                                            */
 /* ------------------------------------------------------------------ */
 
 export const ROOMS: RoomDef[] = [
   // ---- Task rooms ----
   {
     id: "cafeteria",
-    name: "Cafeteria",
+    name: "Torii Gate",
     rect: { x: 830, y: 110, w: 300, h: 330 },
-    floor: "#b3aa98",
+    floor: "#c9b8a0",
     flavor: "cafeteria",
-    task: { id: "register", label: "EMERGENCY REGISTRATION", sub: "Accept a mission", to: ROUTES.events, x: 980, y: 280, targetX: 980, targetY: 355 },
+    task: { id: "register", label: "FESTIVAL REGISTRATION", sub: "Join an event", to: ROUTES.events, x: 980, y: 280, targetX: 980, targetY: 355 },
   },
   {
     id: "weapons",
-    name: "Weapons",
+    name: "Shrine",
     rect: { x: 1210, y: 140, w: 150, h: 140 },
-    floor: "#8fa3b5",
+    floor: "#c7a997",
     flavor: "board",
-    task: { id: "missions", label: "MISSION BOARD", sub: "All events", to: ROUTES.events, x: 1285, y: 215, targetX: 1285, targetY: 252 },
+    task: { id: "missions", label: "EMA EVENT BOARD", sub: "All events", to: ROUTES.events, x: 1285, y: 215, targetX: 1285, targetY: 252 },
   },
   {
     id: "navigation",
-    name: "Navigation",
+    name: "Stage",
     rect: { x: 1420, y: 380, w: 130, h: 160 },
-    floor: "#7f95ad",
+    floor: "#c2a98f",
     flavor: "console",
-    task: { id: "timeline", label: "TIMELINE", sub: "Fest schedule", to: ROUTES.schedule, x: 1485, y: 455, targetX: 1485, targetY: 495 },
+    task: { id: "timeline", label: "SCHEDULE SCROLL", sub: "Fest schedule", to: ROUTES.schedule, x: 1485, y: 455, targetX: 1485, targetY: 495 },
   },
   {
     id: "storage",
-    name: "Storage",
+    name: "Dojo",
     rect: { x: 770, y: 480, w: 210, h: 330 },
-    floor: "#a89f83",
+    floor: "#c0a488",
     flavor: "bunks",
-    task: { id: "crew", label: "CREW DECK", sub: "Your passes", to: ROUTES.dashboard, x: 875, y: 600, targetX: 875, targetY: 690 },
+    task: { id: "crew", label: "OMAMORI PASSES", sub: "Your passes", to: ROUTES.dashboard, x: 875, y: 600, targetX: 875, targetY: 690 },
   },
   {
     id: "comms",
-    name: "Comms",
+    name: "Tea House",
     rect: { x: 1030, y: 720, w: 170, h: 130 },
-    floor: "#7f9db5",
+    floor: "#b7a98e",
     flavor: "comms",
-    task: { id: "comms", label: "COMMS", sub: "Contact us", to: ROUTES.contact, x: 1115, y: 795, targetX: 1115, targetY: 805 },
+    task: { id: "comms", label: "TEA HOUSE", sub: "Contact us", to: ROUTES.contact, x: 1115, y: 795, targetX: 1115, targetY: 805 },
   },
   {
     id: "reactor",
-    name: "Reactor",
+    name: "Main Shrine",
     rect: { x: 230, y: 390, w: 160, h: 220 },
-    floor: "#9d8fb5",
+    floor: "#b09cab",
     flavor: "reactor",
-    task: { id: "about", label: "REACTOR CORE", sub: "About the fest", to: ROUTES.about, x: 310, y: 485, targetX: 310, targetY: 555 },
+    task: { id: "about", label: "ABOUT THE FEST", sub: "The story", to: ROUTES.about, x: 310, y: 485, targetX: 310, targetY: 555 },
   },
-  // ---- Decorative rooms (walk through them, Skeld-style) ----
-  { id: "o2", name: "O2", rect: { x: 1150, y: 360, w: 110, h: 110 }, floor: "#7fae8a", flavor: "o2", task: null },
-  { id: "shields", name: "Shields", rect: { x: 1240, y: 600, w: 150, h: 150 }, floor: "#b57f93", flavor: "shields", task: null },
-  { id: "admin", name: "Admin", rect: { x: 1000, y: 500, w: 170, h: 140 }, floor: "#b58f86", flavor: "admin", task: null },
-  { id: "electrical", name: "Electrical", rect: { x: 560, y: 580, w: 170, h: 220 }, floor: "#b5a97f", flavor: "electrical", task: null },
-  { id: "medbay", name: "MedBay", rect: { x: 660, y: 300, w: 160, h: 170 }, floor: "#8fb5a3", flavor: "medbay", task: null },
-  { id: "security", name: "Security", rect: { x: 530, y: 400, w: 100, h: 180 }, floor: "#8fb5a3", flavor: "security", task: null },
-  { id: "upperEngine", name: "Upper Engine", rect: { x: 400, y: 240, w: 150, h: 150 }, floor: "#b59d7f", flavor: "engine", task: null },
-  { id: "lowerEngine", name: "Lower Engine", rect: { x: 400, y: 630, w: 150, h: 150 }, floor: "#b59d7f", flavor: "engine", task: null },
+  // ---- Decorative grounds (walk through them, festival-style) ----
+  { id: "o2", name: "Koi Pond", rect: { x: 1150, y: 360, w: 110, h: 110 }, floor: "#8fb59d", flavor: "o2", task: null },
+  { id: "shields", name: "Hanabi Lawn", rect: { x: 1240, y: 600, w: 150, h: 150 }, floor: "#b58f9d", flavor: "shields", task: null },
+  { id: "admin", name: "Tea Stall", rect: { x: 1000, y: 500, w: 170, h: 140 }, floor: "#b59f86", flavor: "admin", task: null },
+  { id: "electrical", name: "Lantern Alley", rect: { x: 560, y: 580, w: 170, h: 220 }, floor: "#b5a97f", flavor: "electrical", task: null },
+  { id: "medbay", name: "Ramen Stall", rect: { x: 660, y: 300, w: 160, h: 170 }, floor: "#a3b588", flavor: "medbay", task: null },
+  { id: "security", name: "Archery Range", rect: { x: 530, y: 400, w: 100, h: 180 }, floor: "#9db58f", flavor: "security", task: null },
+  { id: "upperEngine", name: "Bamboo Grove", rect: { x: 400, y: 240, w: 150, h: 150 }, floor: "#93b58f", flavor: "engine", task: null },
+  { id: "lowerEngine", name: "Zen Garden", rect: { x: 400, y: 630, w: 150, h: 150 }, floor: "#adb59d", flavor: "engine", task: null },
 ];
 
-/** Dark connecting passages — mirror the Skeld hallway topology */
+/** Dark connecting lanes — the lantern-lit paths between grounds */
 export const CORRIDORS: Rect[] = [
   // Right wing
   { x: 1070, y: 170, w: 200, h: 90 }, // cafeteria ↔ weapons
@@ -228,7 +230,7 @@ export interface Waypoint {
 /**
  * Legal walking route between two world points: BFS over the rect graph with
  * waypoint hops through each doorway, ending on the (clamped) tap point.
- * Returns null when the tap is off-ship.
+ * Returns null when the tap is off the grounds.
  */
 export function computePath(from: Waypoint, to: Waypoint): Waypoint[] | null {
   const goal = rectIndexAt(to.x, to.y, 0);
@@ -272,15 +274,15 @@ export function computePath(from: Waypoint, to: Waypoint): Waypoint[] | null {
   return wps;
 }
 
-/** Scale for the full-ship map overlay so it fills the screen (esp. desktop) */
+/** Scale for the full-grounds map overlay so it fills the screen (esp. desktop) */
 export function fitMapScale(vw: number, vh: number): number {
   return Math.min((vw * 0.94) / WORLD_W, (vh * 0.82) / WORLD_H);
 }
 
 /**
  * Live-map camera scale. Desktop shows the world 1:1; narrow screens zoom out
- * so the visible slice of the ship is always >= 900 world-px wide — the whole
- * room span becomes visible on phones instead of a pixel sliver.
+ * so the visible slice of the grounds is always >= 900 world-px wide — the
+ * whole room span becomes visible on phones instead of a pixel sliver.
  */
 export function fitViewScale(vw: number, vh: number): number {
   if (vw >= 900) return 1;

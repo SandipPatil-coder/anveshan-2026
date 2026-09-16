@@ -109,7 +109,7 @@ export default function AdminPage() {
         <>
           {/* Stat tiles (spec §46) */}
           <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            <StatTile label="MISSIONS" value={overview?.events.length ?? 0} />
+            <StatTile label="EVENTS" value={overview?.events.length ?? 0} />
             <StatTile label="REGISTRATIONS" value={overview?.totalRegistrations ?? 0} />
             <StatTile label="CONFIRMED" value={overview?.confirmed ?? 0} tone="ok" />
             <StatTile label="PARTICIPANTS" value={overview?.uniqueParticipants ?? 0} />
@@ -120,7 +120,7 @@ export default function AdminPage() {
           <div className="mt-6 grid gap-4 lg:grid-cols-2">
             {/* Capacity per event */}
             <Panel>
-              <PanelHeader>MISSION CAPACITY</PanelHeader>
+              <PanelHeader>EVENT CAPACITY</PanelHeader>
               <div className="space-y-4 p-5">
                 {(overview?.perEvent ?? []).map(({ event, count, capacity }) => (
                   <div key={event.id}>
@@ -185,8 +185,8 @@ export default function AdminPage() {
                   <thead>
                     <tr className="border-b border-seam text-inkdim">
                       <th className="py-2 pr-3 tracking-[0.2em]">PASS</th>
-                      <th className="py-2 pr-3 tracking-[0.2em]">OPERATOR</th>
-                      <th className="py-2 pr-3 tracking-[0.2em]">MISSION</th>
+                      <th className="py-2 pr-3 tracking-[0.2em]">GUEST</th>
+                      <th className="py-2 pr-3 tracking-[0.2em]">EVENT</th>
                       <th className="py-2 pr-3 tracking-[0.2em]">TEAM</th>
                       <th className="py-2 pr-3 tracking-[0.2em]">TYPE</th>
                       <th className="py-2 pr-3 tracking-[0.2em]">FEE</th>

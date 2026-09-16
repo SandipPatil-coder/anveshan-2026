@@ -34,9 +34,9 @@ export default function LoginPage() {
   return (
     <div className="mx-auto max-w-md px-4 pb-20 pt-14 sm:pt-20">
       <div className="text-center">
-        <div className="font-mono text-[10px] tracking-[0.4em] text-inkdim">OPERATOR LOGIN</div>
+        <div className="font-mono text-[10px] tracking-[0.4em] text-inkdim">GUEST LOGIN</div>
         <h1 className="mt-2 font-display text-3xl font-bold tracking-[0.2em] text-ink">
-          CREW <span className="text-plasma text-glow">ACCESS</span>
+          GUEST <span className="text-plasma text-glow">ACCESS</span>
         </h1>
       </div>
 
@@ -68,7 +68,7 @@ export default function LoginPage() {
       </Panel>
 
       <p className="mt-6 text-center font-mono text-[11px] tracking-[0.15em] text-inkdim">
-        NO CREW ID YET?{" "}
+        NO GUEST PASS YET?{" "}
         <Link to="/signup" className="text-plasma hover:text-glow">
           SIGN UP
         </Link>

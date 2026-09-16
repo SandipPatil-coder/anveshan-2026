@@ -13,7 +13,7 @@ export default function AboutPage() {
       </header>
 
       <Panel className="mt-8 p-6 sm:p-8">
-        <PanelHeader>TRANSMISSION</PanelHeader>
+        <PanelHeader>OUR STORY</PanelHeader>
         <div className="space-y-4 pt-5 text-sm leading-relaxed text-inkdim">
           <p>
             {FEST_NAME} {FEST_YEAR} is the annual technical festival of our campus — a two-day grid of
@@ -32,7 +32,7 @@ export default function AboutPage() {
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         {[
-          { k: "MISSIONS", v: "05", d: "Event categories across tech, esports and culture" },
+          { k: "EVENTS", v: "05", d: "Event categories across tech, esports and culture" },
           { k: "PRIZE POOL", v: "₹34K", d: "Total pool across all events" },
           { k: "DAYS", v: "02", d: "One weekend, full grid" },
         ].map((s) => (
@@ -45,7 +45,7 @@ export default function AboutPage() {
       </div>
 
       <div className="mt-10 text-center">
-        <Button to={ROUTES.events} size="lg">VIEW MISSIONS →</Button>
+        <Button to={ROUTES.events} size="lg">VIEW EVENTS →</Button>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Nova from "@/components/Nova";
+import Mochi from "@/components/Mochi";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { FEST_NAME, FEST_YEAR } from "@/lib/constants";
 import { sfx } from "@/lib/sfx";
@@ -16,7 +16,7 @@ const DRIFTERS = [
   { color: "#4cc9f0", x: 30, y: 88, s: 38, d: 28, r: -6 },
 ];
 
-/** Lobby start screen: black space, floating crew, PRESS START */
+/** Lobby start screen: night sky, floating mochi, PRESS START */
 export default function StartScreen({ onStart }: { onStart: () => void }) {
   const reduced = useReducedMotion();
 
@@ -39,7 +39,7 @@ export default function StartScreen({ onStart }: { onStart: () => void }) {
     >
       {/* Version chip (top-left, like a game title screen) */}
       <div className="absolute left-4 top-3 z-10 font-mono text-[10px] tracking-[0.3em] text-white/35">
-        V 1.0 — {FEST_NAME.toUpperCase()} STATION
+        V 1.0 — {FEST_NAME.toUpperCase()} MATSURI
       </div>
 
       {/* White stars */}
@@ -60,7 +60,7 @@ export default function StartScreen({ onStart }: { onStart: () => void }) {
           animate={reduced ? undefined : { y: [0, -22, 0], rotate: [d.r, d.r + 8, d.r] }}
           transition={{ repeat: Infinity, duration: d.d / 8, ease: "easeInOut", delay: i * 0.4 }}
         >
-          <Nova color={d.color} size={d.s} />
+          <Mochi color={d.color} size={d.s} />
         </motion.div>
       ))}
 
@@ -76,7 +76,7 @@ export default function StartScreen({ onStart }: { onStart: () => void }) {
           {FEST_YEAR}
         </div>
         <p className="mt-4 font-display text-xs font-bold uppercase tracking-[0.35em] text-white/60">
-          THE CREW IS WAITING.
+          ようこそ — THE FEST AWAITS.
         </p>
 
         <motion.button
@@ -88,7 +88,7 @@ export default function StartScreen({ onStart }: { onStart: () => void }) {
           transition={{ repeat: Infinity, duration: 1.1 }}
           className="btn-3d mt-12 rounded-full bg-white px-14 py-4 font-display text-xl font-extrabold tracking-[0.3em] text-black"
         >
-          ENTER SHIP
+          ENTER MATSURI
         </motion.button>
         <div className="mt-3 font-display text-[11px] font-bold tracking-[0.3em] text-white/50">
           OR PRESS ENTER

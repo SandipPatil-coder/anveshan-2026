@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { QrCode, Users, LogOut, Radar } from "lucide-react";
-import Nova from "@/components/Nova";
+import Mochi from "@/components/Mochi";
 import Panel from "@/components/ui/Panel";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
@@ -30,15 +30,15 @@ export default function DashboardPage() {
   }, [user?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
-    return <ConsoleLoader label="CONNECTING TO CREW" />;
+    return <ConsoleLoader label="FETCHING YOUR PASSES" />;
   }
 
   if (!user) {
     return (
       <div className="mx-auto max-w-md px-4 py-20 text-center">
         <Panel className="p-8">
-          <div className="font-display text-xl font-bold tracking-[0.25em] text-ink">CREW DECK LOCKED</div>
-          <p className="mt-2 font-mono text-[11px] tracking-[0.15em] text-inkdim">Log in to view your missions.</p>
+          <div className="font-display text-xl font-bold tracking-[0.25em] text-ink">PASSES LOCKED</div>
+          <p className="mt-2 font-mono text-[11px] tracking-[0.15em] text-inkdim">Log in to view your events.</p>
           <div className="mt-6 flex justify-center gap-3">
             <Button to="/login">LOGIN</Button>
             <Button to="/signup" variant="ghost">SIGN UP</Button>
@@ -56,10 +56,10 @@ export default function DashboardPage() {
       {/* Player profile header (spec §23) */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <Nova color={localStorage.getItem("nexorium-color") ?? "#4cc9f0"} size={56} />
+          <Mochi color={localStorage.getItem("nexorium-color") ?? "#4cc9f0"} size={56} />
           <div>
-            <div className="font-mono text-[10px] tracking-[0.35em] text-inkdim">CREWMATE</div>
-            <div className="font-display text-xl font-bold tracking-[0.2em] text-ink">{profile?.full_name ?? "OPERATOR"}</div>
+            <div className="font-mono text-[10px] tracking-[0.35em] text-inkdim">GUEST</div>
+            <div className="font-display text-xl font-bold tracking-[0.2em] text-ink">{profile?.full_name ?? "FEST GOER"}</div>
           </div>
         </div>
         <Button variant="ghost" size="sm" onClick={() => signOut()}>
@@ -67,13 +67,13 @@ export default function DashboardPage() {
         </Button>
       </div>
 
-      {/* CREW ID — real stats only: registrations from Supabase, identity from auth */}
+      {/* GUEST ID — real stats only: registrations from Supabase, identity from auth */}
       <Panel scanlines className="mt-6 p-5">
         <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
           <div>
-            <div className="font-mono text-[9px] tracking-[0.3em] text-inkdim">CREW MEMBER</div>
+            <div className="font-mono text-[9px] tracking-[0.3em] text-inkdim">EVENTS</div>
             <div className="mt-0.5 font-display text-3xl font-extrabold text-plasma text-glow">{confirmedCount}</div>
-            <div className="font-mono text-[9px] tracking-[0.25em] text-inkdim">MISSIONS CONFIRMED</div>
+            <div className="font-mono text-[9px] tracking-[0.25em] text-inkdim">CONFIRMED</div>
           </div>
           <div>
             <div className="font-mono text-[9px] tracking-[0.3em] text-inkdim">IN PROGRESS</div>
@@ -81,7 +81,7 @@ export default function DashboardPage() {
             <div className="font-mono text-[9px] tracking-[0.25em] text-inkdim">AWAITING PAYMENT</div>
           </div>
           <div className="min-w-0">
-            <div className="font-mono text-[9px] tracking-[0.3em] text-inkdim">OPERATIVE ID</div>
+            <div className="font-mono text-[9px] tracking-[0.3em] text-inkdim">GUEST ID</div>
             <div className="mt-0.5 truncate font-mono text-sm text-ink">{user.email}</div>
             {profile?.college && (
               <div className="mt-0.5 font-mono text-[10px] text-inkdim">{profile.college}</div>
@@ -92,19 +92,19 @@ export default function DashboardPage() {
 
       <div className="mt-2 flex items-center gap-3">
         <h1 className="font-display text-2xl font-bold tracking-[0.2em] text-ink">
-          REGISTERED <span className="text-plasma text-glow">MISSIONS</span>
+          REGISTERED <span className="text-plasma text-glow">EVENTS</span>
         </h1>
-        <Badge tone="neutral">{regs.length} SLOT{regs.length === 1 ? "" : "S"}</Badge>
+        <Badge tone="neutral">{regs.length} PASS{regs.length === 1 ? "" : "ES"}</Badge>
       </div>
 
-      {loadingRegs && <ConsoleLoader label="RETRIEVING MISSIONS" />}
+      {loadingRegs && <ConsoleLoader label="RETRIEVING PASSES" />}
 
       {!loadingRegs && regs.length === 0 && (
         <Panel className="mt-8 p-10 text-center">
           <Radar className="mx-auto h-8 w-8 text-inkdim" />
-          <div className="mt-3 font-display text-lg font-bold tracking-[0.2em] text-ink">NO MISSIONS YET</div>
-          <p className="mt-1 font-mono text-[11px] text-inkdim">Your task log is empty — the ship is waiting.</p>
-          <Button to="/events" className="mt-5">BROWSE TASKS</Button>
+          <div className="mt-3 font-display text-lg font-bold tracking-[0.2em] text-ink">NO PASSES YET</div>
+          <p className="mt-1 font-mono text-[11px] text-inkdim">Your pass log is empty — the grounds are waiting.</p>
+          <Button to="/events" className="mt-5">BROWSE EVENTS</Button>
         </Panel>
       )}
 
@@ -114,7 +114,7 @@ export default function DashboardPage() {
             <div className="flex items-start justify-between gap-2">
               <div>
                 <div className="font-display text-lg font-bold tracking-[0.15em] text-ink">
-                  {reg.events?.name ?? "MISSION"}
+                  {reg.events?.name ?? "EVENT"}
                 </div>
                 {reg.teams && <div className="mt-0.5 font-mono text-[10px] tracking-[0.25em] text-plasma">{reg.teams.team_name}</div>}
               </div>
@@ -134,7 +134,7 @@ export default function DashboardPage() {
             {reg.teams && (reg.teams.team_members?.length ?? 0) > 0 && (
               <div className="mt-3 border-t border-seam pt-3">
                 <div className="flex items-center gap-1.5 font-mono text-[9px] tracking-[0.3em] text-inkdim">
-                  <Users size={11} /> CREW
+                  <Users size={11} /> TEAM
                 </div>
                 <div className="mt-1.5 flex flex-wrap gap-1.5">
                   {reg.teams.team_members.map((m) => (
@@ -152,7 +152,7 @@ export default function DashboardPage() {
               </Button>
               {reg.events?.slug && (
                 <Button size="sm" variant="ghost" to={`/events/${reg.events.slug}`}>
-                  DOSSIER
+                  EVENT
                 </Button>
               )}
             </div>

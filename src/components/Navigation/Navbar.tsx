@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, LogOut, Volume2, VolumeX } from "lucide-react";
-import Mochi from "@/components/Mochi";
 import { useAuth } from "@/context/AuthContext";
 import { signOut } from "@/services/auth";
 import { FEST_NAME, FEST_YEAR, ROUTES } from "@/lib/constants";
 import Button from "@/components/ui/Button";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { soundEnabled, setSoundEnabled, sfx } from "@/lib/sfx";
 
 const NAV = [
@@ -17,13 +15,24 @@ const NAV = [
   { to: ROUTES.contact, label: "CONTACT" },
 ];
 
+/** Tiny torii glyph, drawn with strokes so it inherits currentColor */
+function ToriiMark() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden>
+      <path d="M4 6c2.7-1 13.3-1 16 0" />
+      <path d="M5.5 10h13" />
+      <path d="M7.5 9v10M16.5 9v10" />
+      <path d="M12 8v2" />
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [sound, setSound] = useState(soundEnabled());
   const { user, profile, isAdmin } = useAuth();
   const location = useLocation();
-  const reduced = useReducedMotion();
 
   useEffect(() => setOpen(false), [location.pathname]);
 
@@ -34,8 +43,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const charColor = localStorage.getItem("nexorium-color") ?? "#4cc9f0";
-  const dashLabel = user ? profile?.full_name?.split(" ")[0]?.toUpperCase() || "GUEST" : "LOGIN";
+  const dashLabel = user ? profile?.full_name?.split(" ")[0]?.toUpperCase() || "DASHBOARD" : "LOGIN";
 
   const toggleSound = () => {
     const next = !sound;
@@ -47,18 +55,18 @@ export default function Navbar() {
   return (
     <header
       className={`sticky top-0 z-40 transition-all ${
-        scrolled ? "border-b-4 border-[#2b3a63] bg-void/90 backdrop-blur-xl" : "border-b-4 border-transparent"
+        scrolled ? "border-b border-seam bg-void/85 shadow-sm backdrop-blur-lg" : "border-b border-transparent"
       }`}
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link to={ROUTES.home} className="group flex items-center gap-2.5">
-          <span className="transition-transform group-hover:-translate-y-0.5">
-            <Mochi color={charColor} size={34} />
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-plasma text-white shadow-sm transition-transform group-hover:scale-105">
+            <ToriiMark />
           </span>
-          <span className="font-display text-lg font-extrabold tracking-wider text-ink">
+          <span className="font-display text-lg font-extrabold tracking-wide text-ink">
             {FEST_NAME}
-            <span className="ml-1 text-plasma">{FEST_YEAR}</span>
+            <span className="ml-1.5 text-plasma">{FEST_YEAR}</span>
           </span>
         </Link>
 
@@ -69,8 +77,8 @@ export default function Navbar() {
               key={n.to}
               to={n.to}
               className={({ isActive }) =>
-                `rounded-full px-4 py-2 font-display text-xs font-extrabold tracking-widest transition-colors ${
-                  isActive ? "bg-plasma/15 text-plasma" : "text-inkdim hover:text-ink"
+                `rounded-full px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.22em] transition-colors ${
+                  isActive ? "text-plasma" : "text-inkdim hover:text-ink"
                 }`
               }
             >
@@ -81,8 +89,8 @@ export default function Navbar() {
             <NavLink
               to={ROUTES.admin}
               className={({ isActive }) =>
-                `rounded-full px-4 py-2 font-display text-xs font-extrabold tracking-widest transition-colors ${
-                  isActive ? "bg-accent-warm/15 text-accent-warm" : "text-accent-warm/80 hover:text-accent-warm"
+                `rounded-full px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.22em] transition-colors ${
+                  isActive ? "text-accent-warm" : "text-accent-warm/70 hover:text-accent-warm"
                 }`
               }
             >
@@ -92,7 +100,7 @@ export default function Navbar() {
           <button
             onClick={toggleSound}
             aria-label={sound ? "Mute sounds" : "Enable sounds"}
-            className="ml-2 rounded-full border-2 border-[#aebbdd]/70 p-2 text-inkdim hover:text-plasma"
+            className="ml-2 rounded-full border border-seam p-2 text-inkdim transition-colors hover:text-plasma"
           >
             {sound ? <Volume2 size={15} /> : <VolumeX size={15} />}
           </button>
@@ -106,12 +114,12 @@ export default function Navbar() {
           <button
             onClick={toggleSound}
             aria-label={sound ? "Mute sounds" : "Enable sounds"}
-            className="rounded-full border-2 border-[#aebbdd]/70 p-2 text-inkdim"
+            className="rounded-full border border-seam p-2 text-inkdim"
           >
             {sound ? <Volume2 size={15} /> : <VolumeX size={15} />}
           </button>
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-hullraised text-plasma btn-3d-sm"
+            className="grid h-10 w-10 place-items-center rounded-full border border-seam bg-white/70 text-ink"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
@@ -125,11 +133,11 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={reduced ? { opacity: 0 } : { opacity: 0, height: 0 }}
-            animate={reduced ? { opacity: 1 } : { opacity: 1, height: "auto" }}
-            exit={reduced ? { opacity: 0 } : { opacity: 0, height: 0 }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="overflow-hidden border-b-4 border-[#2b3a63] bg-void/95 backdrop-blur-xl md:hidden"
+            className="overflow-hidden border-b border-seam bg-void/95 backdrop-blur-lg md:hidden"
           >
             <div className="flex flex-col gap-1 px-4 pb-6 pt-2">
               {NAV.map((n) => (
@@ -137,8 +145,8 @@ export default function Navbar() {
                   key={n.to}
                   to={n.to}
                   className={({ isActive }) =>
-                    `rounded-2xl px-4 py-3 font-display text-sm font-extrabold tracking-widest ${
-                      isActive ? "bg-plasma/15 text-plasma" : "text-inkdim"
+                    `rounded-xl px-4 py-3 font-display text-sm font-bold tracking-wide ${
+                      isActive ? "bg-plasma/10 text-plasma" : "text-inkdim"
                     }`
                   }
                 >
@@ -146,7 +154,7 @@ export default function Navbar() {
                 </NavLink>
               ))}
               {isAdmin && (
-                <NavLink to={ROUTES.admin} className="rounded-2xl px-4 py-3 font-display text-sm font-extrabold tracking-widest text-accent-warm">
+                <NavLink to={ROUTES.admin} className="rounded-xl px-4 py-3 font-display text-sm font-bold tracking-wide text-accent-warm">
                   ADMIN
                 </NavLink>
               )}

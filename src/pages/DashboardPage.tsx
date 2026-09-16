@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { QrCode, Users, LogOut, Radar } from "lucide-react";
-import Mochi from "@/components/Mochi";
 import Panel from "@/components/ui/Panel";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
@@ -56,7 +55,12 @@ export default function DashboardPage() {
       {/* Player profile header (spec §23) */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <Mochi color={localStorage.getItem("nexorium-color") ?? "#4cc9f0"} size={56} />
+          <div
+            className="grid h-14 w-14 place-items-center rounded-full bg-plasma font-display text-xl font-extrabold text-white shadow-sm"
+            aria-hidden
+          >
+            {(profile?.full_name ?? "F").trim().charAt(0).toUpperCase()}
+          </div>
           <div>
             <div className="font-mono text-[10px] tracking-[0.35em] text-inkdim">GUEST</div>
             <div className="font-display text-xl font-bold tracking-[0.2em] text-ink">{profile?.full_name ?? "FEST GOER"}</div>
@@ -103,7 +107,7 @@ export default function DashboardPage() {
         <Panel className="mt-8 p-10 text-center">
           <Radar className="mx-auto h-8 w-8 text-inkdim" />
           <div className="mt-3 font-display text-lg font-bold tracking-[0.2em] text-ink">NO PASSES YET</div>
-          <p className="mt-1 font-mono text-[11px] text-inkdim">Your pass log is empty — the grounds are waiting.</p>
+          <p className="mt-1 text-[11px] font-medium text-inkdim">No registrations yet — browse the events and grab your first pass.</p>
           <Button to="/events" className="mt-5">BROWSE EVENTS</Button>
         </Panel>
       )}

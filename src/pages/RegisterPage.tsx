@@ -6,7 +6,7 @@ import Panel, { PanelHeader } from "@/components/ui/Panel";
 import Button from "@/components/ui/Button";
 import Field from "@/components/ui/Field";
 import Badge from "@/components/ui/Badge";
-import Mochi from "@/components/Mochi";
+import { ConsoleLoader } from "@/components/ui/Loading";
 import { useAuth } from "@/context/AuthContext";
 import { fetchEventBySlug } from "@/services/data";
 import { registerForEvent, captureMockPayment } from "@/services/rpc";
@@ -177,8 +177,8 @@ export default function RegisterPage() {
 
   if (loadingEvent) {
     return (
-      <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 px-4 py-20 font-display text-sm font-bold text-inkdim">
-        <Mochi size={40} walking /> OPENING THE GATES…
+      <div className="mx-auto max-w-2xl px-4 py-20">
+        <ConsoleLoader label="OPENING THE GATES" />
       </div>
     );
   }
@@ -245,7 +245,7 @@ export default function RegisterPage() {
       <div className="mt-6">
         {step === "terminal" && (
           <Panel className="relative overflow-hidden p-8 text-center">
-            <div className="text-5xl">{event.team_based ? "👥" : "🍡"}</div>
+            <div className="text-5xl">{event.team_based ? "👥" : "🏮"}</div>
             <div className="mt-4 font-display text-lg font-extrabold text-ink">
               {existing ? "ALREADY REGISTERED" : win!.tone === "open" ? "READY TO REGISTER" : win!.label}
             </div>
@@ -254,7 +254,7 @@ export default function RegisterPage() {
               {isCollege ? "College: FREE" : `External: ${fmtMoney(fee)}`}
             </div>
             <Button size="lg" className="mt-6" onClick={activate} disabled={win!.tone !== "open" || !!existing}>
-              <Zap size={16} /> OPEN THE GATE
+              <Zap size={16} /> START REGISTRATION
             </Button>
             <AnimatePresence>
               {activating && (
@@ -280,7 +280,7 @@ export default function RegisterPage() {
           <Panel className="p-6">
             <PanelHeader>TASK — ASSEMBLE TEAM</PanelHeader>
             <div className="pt-5">
-              <div className="rounded-blob border-2 border-[#aebbdd]/70 bg-void/60 p-4">
+              <div className="rounded-blob border-seam bg-void/60 p-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-inkdim">Participant type — auto-detected</div>
@@ -322,7 +322,7 @@ export default function RegisterPage() {
                     });
                   };
                   return (
-                    <div key={i} className="rounded-blob border-2 border-[#aebbdd]/70 bg-void/40 p-4">
+                    <div key={i} className="rounded-blob border-seam bg-void/40 p-4">
                       <div className="mb-3 flex items-center justify-between">
                         <span className="font-display text-xs font-extrabold tracking-widest text-plasma">
                           {i === 0 ? "★ TEAM LEADER — YOU" : `TEAM MEMBER ${i + 1}`}
@@ -358,7 +358,7 @@ export default function RegisterPage() {
           <Panel className="p-6">
             <PanelHeader>TASK — CONFIRM DETAILS</PanelHeader>
             <div className="pt-5">
-              <div className="rounded-blob border-2 border-[#aebbdd]/70 bg-void/60 p-4 font-display text-sm font-bold">
+              <div className="rounded-blob border-seam bg-void/60 p-4 font-display text-sm font-bold">
                 <Row k="EVENT" v={event.name} />
                 {!isSolo && <Row k="TEAM" v={teamName.trim().toUpperCase()} />}
                 <Row k="TEAM SIZE" v={String(teamSize)} />
@@ -367,7 +367,7 @@ export default function RegisterPage() {
               </div>
               <div className="mt-4 space-y-2">
                 {members.slice(0, teamSize).map((m, i) => (
-                  <div key={i} className="flex items-center justify-between border-b border-[#aebbdd]/50 pb-2 font-display text-xs font-bold text-inkdim">
+                  <div key={i} className="flex items-center justify-between border-b border-seam/60 pb-2 font-display text-xs font-bold text-inkdim">
                     <span className="text-ink">{m.name || "—"}</span>
                     <span>{m.email}</span>
                   </div>
@@ -404,7 +404,7 @@ export default function RegisterPage() {
         )}
 
         {step === "done" && result?.registrationNumber && (
-          <DonePanel registrationNumber={result.registrationNumber} eventName={event.name} color={localStorage.getItem("nexorium-color") ?? "#4cc9f0"} />
+          <DonePanel registrationNumber={result.registrationNumber} eventName={event.name} />
         )}
       </div>
     </div>
@@ -413,7 +413,7 @@ export default function RegisterPage() {
 
 function Row({ k, v, accent = false }: { k: string; v: string; accent?: boolean }) {
   return (
-    <div className="flex items-center justify-between border-b border-[#aebbdd]/40 py-1.5">
+    <div className="flex items-center justify-between border-b border-seam/50 py-1.5">
       <span className="tracking-widest text-inkdim">{k}</span>
       <span className={accent ? "text-accent-warm" : "text-ink"}>{v}</span>
     </div>
@@ -487,7 +487,7 @@ function SwipeTask({ onDone }: { onDone: () => void }) {
       </div>
       <div
         ref={trackRef}
-        className="relative mt-4 h-20 overflow-hidden rounded-blob border-2 border-[#aebbdd]/70 bg-void"
+        className="relative mt-4 h-20 overflow-hidden rounded-blob border-seam bg-void"
         style={{ touchAction: "none" }}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -536,7 +536,7 @@ function UploadBar({ running, onDoneLabel }: { running: boolean; onDoneLabel: st
   if (!running && pct === 0) return <div className="mt-6 h-8" />;
   return (
     <div className="mx-auto mt-6 max-w-sm">
-      <div className="h-7 overflow-hidden rounded-full border-2 border-[#aebbdd]/70 bg-void">
+      <div className="h-7 overflow-hidden rounded-full border-seam bg-void">
         <div
           className={`h-full transition-all duration-100 ${pct >= 100 ? "bg-signet" : "bg-plasma task-stripes"}`}
           style={{ width: `${pct}%` }}
@@ -549,39 +549,28 @@ function UploadBar({ running, onDoneLabel }: { running: boolean; onDoneLabel: st
   );
 }
 
-/** Registration complete — MOCHI strolls in to celebrate */
-function DonePanel({ registrationNumber, eventName, color }: { registrationNumber: string; eventName: string; color: string }) {
+/** Registration complete */
+function DonePanel({ registrationNumber, eventName }: { registrationNumber: string; eventName: string }) {
   const [qr, setQr] = useState("");
   const reduced = useReducedMotion();
 
   useEffect(() => {
     import("qrcode").then((m) =>
-      m.toDataURL(registrationNumber, { width: 300, margin: 1, color: { dark: "#0b1020", light: "#f2f6ff" } }).then(setQr)
+      m.toDataURL(registrationNumber, { width: 300, margin: 1, color: { dark: "#232028", light: "#ffffff" } }).then(setQr)
     );
   }, [registrationNumber]);
 
   return (
     <Panel className="overflow-hidden p-8 text-center">
-      <div className="relative h-20">
-        <motion.div
-          className="absolute bottom-0"
-          style={{ left: "50%", marginLeft: -30 }}
-          initial={{ x: reduced ? 0 : "-45vw" }}
-          animate={{ x: reduced ? 0 : 0 }}
-          transition={{ duration: 2.4, ease: "easeInOut" }}
-        >
-          <Mochi color={color} size={60} walking />
-        </motion.div>
-      </div>
       <motion.div
         initial={{ scale: 0.5, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 240, damping: 16, delay: reduced ? 0 : 2.2 }}
-        className="mx-auto mt-2 flex h-16 w-16 items-center justify-center rounded-full border-4 border-signet bg-signet/15"
+        transition={{ type: "spring", stiffness: 240, damping: 16, delay: reduced ? 0 : 0.15 }}
+        className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-4 border-signet bg-signet/15"
       >
         <Check size={32} className="text-signet" />
       </motion.div>
-      <div className="mt-4 font-display text-3xl font-extrabold tracking-wide text-signet">参上 — YOU'RE IN</div>
+      <div className="mt-4 font-display text-3xl font-extrabold tracking-wide text-signet">登録完了 — YOU'RE IN</div>
       <div className="mt-2 font-mono text-lg font-bold text-ink">{registrationNumber}</div>
       <div className="font-display text-xs font-bold text-inkdim">{eventName}</div>
       {qr && (

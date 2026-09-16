@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
-import { StartGate } from "@/components/StartGate";
 import Navbar from "@/components/Navigation/Navbar";
 import Footer from "@/components/Navigation/Footer";
 import BackgroundFX from "@/components/ui/BackgroundFX";
@@ -17,24 +16,12 @@ import SchedulePage from "@/pages/SchedulePage";
 import AboutPage from "@/pages/AboutPage";
 import ContactPage from "@/pages/ContactPage";
 import NotFoundPage from "@/pages/NotFoundPage";
-import { startMusic } from "@/lib/sfx";
 
 function Layout() {
   useEffect(() => {
-    // Boot flash removal is handled in main.tsx; scroll to top on route change
     window.scrollTo({ top: 0 });
   }, []);
 
-  useEffect(() => {
-    // Ambient loop needs a user gesture before browsers allow audio
-    const kick = () => startMusic();
-    window.addEventListener("pointerdown", kick, { once: true });
-    window.addEventListener("keydown", kick, { once: true });
-    return () => {
-      window.removeEventListener("pointerdown", kick);
-      window.removeEventListener("keydown", kick);
-    };
-  }, []);
   return (
     <div className="relative flex min-h-screen flex-col">
       <BackgroundFX />
@@ -65,9 +52,7 @@ export default function App() {
   return (
     <HashRouter>
       <AuthProvider>
-        <StartGate>
-          <Layout />
-        </StartGate>
+        <Layout />
       </AuthProvider>
     </HashRouter>
   );

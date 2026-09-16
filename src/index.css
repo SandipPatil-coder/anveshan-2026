@@ -2,21 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ---- Design tokens — night matsuri edition (紺夜の祭) ---- */
+/* ---- Design tokens — washi & sumi (Japanese editorial) ---- */
 :root {
-  color-scheme: dark;
-  --background: #0d0d1a; /* kon — deep indigo night */
-  --surface: rgba(58, 44, 66, 0.92); /* indigo-plum glass */
-  --surface-elevated: rgba(74, 56, 82, 0.95);
-  --text: #fdf6ec; /* washi paper */
-  --text-muted: #c9b8d4;
-  --accent: #ffab5e; /* chochin lantern orange */
-  --accent-deep: #c26d2c;
-  --accent-warm: #ff8fab; /* sakura pink */
-  --success: #3ddc84; /* matcha */
-  --warning: #ffd166; /* kinpaku gold */
-  --danger: #ef476f; /* shu vermilion */
-  --border: rgba(253, 246, 236, 0.28);
+  color-scheme: light;
+  --background: #faf6ee; /* washi paper */
+  --surface: rgba(255, 255, 255, 0.78); /* paper card */
+  --surface-elevated: #ffffff;
+  --text: #232028; /* sumi ink */
+  --text-muted: #6e6878;
+  --accent: #c73e3a; /* shu vermilion */
+  --accent-deep: #9e2f2c;
+  --accent-warm: #a97b2f; /* kin gold */
+  --success: #4f7d43; /* matcha */
+  --warning: #c98f2d; /* kinpaku */
+  --danger: #b3282d; /* deep crimson */
+  --border: rgba(35, 32, 40, 0.14);
 }
 
 html {
@@ -26,19 +26,23 @@ html {
 body {
   margin: 0;
   background-color: var(--background);
+  /* faint washi paper fiber */
+  background-image:
+    repeating-linear-gradient(0deg, rgba(35, 32, 40, 0.022) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(35, 32, 40, 0.016) 0 1px, transparent 1px 3px);
   color: var(--text);
-  font-family: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  font-family: "Zen Kaku Gothic New", ui-sans-serif, system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
 h1, h2, h3, h4, .font-display {
-  font-family: "Baloo 2", "Nunito", ui-sans-serif, sans-serif;
+  font-family: "Shippori Mincho B1", "Noto Serif JP", ui-serif, serif;
 }
 
 code, pre, .font-mono {
-  font-family: "Nunito", ui-monospace, monospace;
-  font-weight: 700;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-weight: 500;
 }
 
 input, textarea, select, button {
@@ -46,47 +50,45 @@ input, textarea, select, button {
 }
 
 ::selection {
-  background: rgba(255, 171, 94, 0.4);
-  color: #ffffff;
+  background: rgba(199, 62, 58, 0.22);
+  color: var(--text);
 }
 
-/* Browser autofill paints name/email fields pale blue, which made our light
-   text invisible. Force the station palette back on top of it. */
+/* Browser autofill paints fields pale, which fights the paper palette.
+   Force our palette back on top of it. */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-text-fill-color: #fdf6ec;
-  -webkit-box-shadow: 0 0 0 1000px #141224 inset;
-  caret-color: #fdf6ec;
+  -webkit-text-fill-color: #232028;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+  caret-color: #c73e3a;
   border-radius: 12px;
   transition: background-color 9999s ease-in-out 0s;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 171, 94, 0.35) transparent;
+  scrollbar-color: rgba(199, 62, 58, 0.35) transparent;
 }
 *::-webkit-scrollbar { width: 8px; height: 8px; }
-*::-webkit-scrollbar-thumb { background: rgba(255, 171, 94, 0.3); border-radius: 8px; }
+*::-webkit-scrollbar-thumb { background: rgba(199, 62, 58, 0.3); border-radius: 8px; }
 *::-webkit-scrollbar-track { background: transparent; }
 
 @layer utilities {
-  /* Legacy shape classes kept as playful rounded equivalents */
+  /* Shape helpers kept from the previous theme */
   .clip-panel { border-radius: 20px; }
   .clip-tag { border-radius: 999px; }
   .clip-blob { border-radius: 28px; }
-  .text-glow { text-shadow: 0 0 16px rgba(255, 171, 94, 0.6); }
-  .text-glow-warm { text-shadow: 0 0 16px rgba(255, 143, 171, 0.6); }
-  .btn-3d { box-shadow: 0 5px 0 0 rgba(10, 8, 20, 0.9), 0 8px 18px rgba(0, 0, 0, 0.35); }
-  .btn-3d-sm { box-shadow: 0 3px 0 0 rgba(10, 8, 20, 0.9); }
-  /* Task progress stripes (upload bar) */
+  .text-glow { text-shadow: 0 0 18px rgba(199, 62, 58, 0.22); }
+  .text-glow-warm { text-shadow: 0 0 18px rgba(169, 123, 47, 0.25); }
+  /* Payment progress stripes */
   .task-stripes {
     background-image: linear-gradient(
       45deg,
-      rgba(255, 255, 255, 0.25) 25%, transparent 25%,
-      transparent 50%, rgba(255, 255, 255, 0.25) 50%,
-      rgba(255, 255, 255, 0.25) 75%, transparent 75%, transparent
+      rgba(255, 255, 255, 0.35) 25%, transparent 25%,
+      transparent 50%, rgba(255, 255, 255, 0.35) 50%,
+      rgba(255, 255, 255, 0.35) 75%, transparent 75%, transparent
     );
     background-size: 18px 18px;
     animation: taskcrawl 0.8s linear infinite;
@@ -104,29 +106,14 @@ input:-webkit-autofill:active {
 }
 .animate-wiggle { animation: wiggle 0.4s ease-in-out infinite; }
 
-/* MOCHI walk cycles (keyframe names kept stable) */
-@keyframes novaStepA {
-  from { transform: translateY(0) rotate(4deg); }
-  to { transform: translateY(-4px) rotate(-10deg); }
-}
-@keyframes novaStepB {
-  from { transform: translateY(-4px) rotate(-10deg); }
-  to { transform: translateY(0) rotate(4deg); }
-}
-@keyframes novaBob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
-}
-.nova-bob { animation: novaBob 0.42s ease-in-out infinite; }
-
-/* Focus visibility for accessibility (spec §54) */
+/* Focus visibility for accessibility */
 :focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
   border-radius: 8px;
 }
 
-/* Reduced-motion respect (spec §54) */
+/* Reduced-motion respect */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -136,19 +123,7 @@ input:-webkit-autofill:active {
   }
 }
 
-/* ---- Mobile game viewport + safe areas (spec §62 mobile-first) ---- */
-.game-viewport {
-  height: calc(100vh - 64px);
-  height: calc(100dvh - 64px - env(safe-area-inset-top, 0px));
-  min-height: 560px;
-}
-@media (max-height: 760px) {
-  .game-viewport {
-    min-height: 0;
-  }
-}
-
-/* Keep bottom HUD clear of the home indicator / top notch (iOS) */
+/* Safe areas (iOS home indicator / notch) */
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }

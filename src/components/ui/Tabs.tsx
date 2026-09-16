@@ -15,14 +15,11 @@ interface TabsProps {
   className?: string;
 }
 
-/**
- * Console-style tab strip — chunky rectangular tabs, active tab lights up
- * white like a selected game menu. Inspired by classic game panel UIs.
- */
+/** Editorial underline tabs — active tab carries a vermilion rule */
 export default function Tabs({ tabs, active, onChange, right, className = "" }: TabsProps) {
   return (
     <div
-      className={`flex items-center gap-1.5 rounded-t-blob border-b-2 border-[#aebbdd]/60 bg-hullraised px-2 pt-2 ${className}`}
+      className={`flex items-center gap-5 border-b border-seam px-1 ${className}`}
       role="tablist"
     >
       {tabs.map((t) => {
@@ -36,9 +33,9 @@ export default function Tabs({ tabs, active, onChange, right, className = "" }: 
               if (!isActive) sfx.blip();
               onChange(t.id);
             }}
-            className={`-mb-0.5 whitespace-nowrap rounded-t-lg border-x-2 border-t-2 px-4 py-1.5 font-display text-[11px] font-extrabold uppercase tracking-[0.2em] transition-colors ${
+            className={`-mb-px whitespace-nowrap border-b-2 px-1 pb-2.5 pt-2 font-display text-xs font-bold uppercase tracking-[0.18em] transition-colors ${
               isActive
-                ? "border-[#aebbdd]/60 bg-hull text-ink"
+                ? "border-plasma text-plasma"
                 : "border-transparent text-inkdim hover:text-ink"
             }`}
           >

@@ -32,7 +32,7 @@ export default function EventsPage() {
     setError(null);
     fetchEvents()
       .then(setEvents)
-      .catch(() => setError("Could not reach mission database. Check the schema is installed."))
+      .catch(() => setError("Could not load events. Please check your connection and try again."))
       .finally(() => setLoading(false));
   }, [retry]);
 

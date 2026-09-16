@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"M PLUS Rounded 1c"', "Nunito", "ui-sans-serif", "sans-serif"],
-        sans: ['"Nunito"', "ui-sans-serif", "system-ui", "sans-serif"],
-        mono: ['"Nunito"', "ui-monospace", "monospace"],
+        display: ['"Shippori Mincho B1"', '"Noto Serif JP"', "ui-serif", "serif"],
+        sans: ['"Zen Kaku Gothic New"', "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
       },
       colors: {
         void: "var(--background)",
@@ -22,9 +22,10 @@ export default {
         "accent-warm": "var(--accent-warm)",
       },
       boxShadow: {
-        glow: "0 0 22px rgba(255, 171, 94, 0.3)",
-        glowlg: "0 0 48px rgba(255, 171, 94, 0.4)",
-        amber: "0 0 22px rgba(255, 209, 102, 0.3)",
+        soft: "0 1px 2px rgba(35, 32, 40, 0.05), 0 10px 30px rgba(35, 32, 40, 0.08)",
+        glow: "0 0 18px rgba(199, 62, 58, 0.22)",
+        glowlg: "0 0 32px rgba(199, 62, 58, 0.28)",
+        amber: "0 0 18px rgba(169, 123, 47, 0.28)",
       },
       borderRadius: {
         blob: "18px",

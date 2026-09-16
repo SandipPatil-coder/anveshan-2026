@@ -1,20 +1,16 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import Panel, { PanelHeader } from "@/components/ui/Panel";
 import Button from "@/components/ui/Button";
 import Field from "@/components/ui/Field";
-import Mochi, { MOCHI_COLORS } from "@/components/Mochi";
 import { signUpEmail } from "@/services/auth";
 import { COLLEGE_DOMAIN_HINT } from "@/lib/constants";
-import { sfx } from "@/lib/sfx";
 
 export default function SignupPage() {
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [color, setColor] = useState(localStorage.getItem("nexorium-color") ?? "#4cc9f0");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [ok, setOk] = useState(false);
@@ -26,7 +22,6 @@ export default function SignupPage() {
     setBusy(true);
     setError(null);
     try {
-      localStorage.setItem("nexorium-color", color);
       const { needsVerification } = await signUpEmail(email.trim(), password, fullName.trim());
       if (needsVerification) {
         setOk(true);
@@ -58,36 +53,17 @@ export default function SignupPage() {
   return (
     <div className="mx-auto max-w-md px-4 pb-20 pt-12 sm:pt-16">
       <div className="text-center">
-        <div className="font-display text-[11px] font-extrabold uppercase tracking-[0.4em] text-inkdim">NEW GUEST</div>
+        <div className="font-mono text-[11px] font-medium uppercase tracking-[0.4em] text-inkdim">NEW GUEST</div>
         <h1 className="mt-1 font-display text-3xl font-extrabold text-ink">
-          DESIGN YOUR <span className="text-plasma text-glow">MOCHI</span>
+          JOIN THE <span className="text-plasma">FEST</span>
         </h1>
       </div>
 
-      {/* Character preview + color picker */}
       <Panel className="mt-6 p-5 text-center">
-        <PanelHeader>PICK YOUR COLOR</PanelHeader>
-        <div className="flex flex-col items-center pt-4">
-          <motion.div key={color} initial={{ scale: 0.85 }} animate={{ scale: 1 }}>
-            <Mochi color={color} size={90} />
-          </motion.div>
-          <div className="mt-4 grid grid-cols-6 gap-2">
-            {MOCHI_COLORS.map((c) => (
-              <button
-                key={c.value}
-                aria-label={`Color ${c.name}`}
-                onClick={() => {
-                  setColor(c.value);
-                  sfx.blip();
-                }}
-                className={`h-8 w-8 rounded-full border-[3px] transition-transform hover:scale-110 ${
-                  color === c.value ? "border-ink" : "border-transparent"
-                }`}
-                style={{ backgroundColor: c.value }}
-              />
-            ))}
-          </div>
-        </div>
+        <PanelHeader>ようこそ — WELCOME</PanelHeader>
+        <p className="pt-4 text-sm font-medium leading-relaxed text-inkdim">
+          One account for every event. A college email gets you free entry to internal events.
+        </p>
       </Panel>
 
       <Panel className="mt-4">

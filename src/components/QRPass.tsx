@@ -12,7 +12,7 @@ export default function QRPass({ reg }: { reg: MyRegistration }) {
     QRCode.toDataURL(reg.registration_number, {
       width: 320,
       margin: 1,
-      color: { dark: "#050b14", light: "#e8f6ff" },
+      color: { dark: "#232028", light: "#ffffff" },
       errorCorrectionLevel: "M",
     }).then(setDataUrl);
   }, [reg.registration_number]);
@@ -21,13 +21,13 @@ export default function QRPass({ reg }: { reg: MyRegistration }) {
 
   return (
     <Panel scanlines className="mx-auto w-full max-w-sm p-6 text-center">
-      <div className="font-mono text-[10px] tracking-[0.4em] text-plasma">ACCESS PASS</div>
+      <div className="font-mono text-[10px] tracking-[0.4em] text-plasma">ENTRY PASS · 参加証</div>
       <div className="mt-4 border border-plasma/40 bg-void p-3 inline-block">
         {dataUrl ? (
           <img src={dataUrl} alt={`QR code for pass ${reg.registration_number}`} className="h-44 w-44" />
         ) : (
           <div className="flex h-44 w-44 items-center justify-center font-mono text-[10px] text-inkdim">
-            ENCRYPTING…
+            GENERATING…
           </div>
         )}
       </div>

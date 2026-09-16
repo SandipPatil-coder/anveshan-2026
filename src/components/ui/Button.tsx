@@ -13,10 +13,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<Variant, string> = {
-  primary: "bg-plasma text-void btn-3d hover:brightness-110",
-  warm: "bg-accent-warm text-void btn-3d hover:brightness-110",
-  ghost: "bg-hullraised text-ink border-2 border-[#aebbdd]/70 btn-3d hover:border-plasma",
-  danger: "bg-alert text-white btn-3d hover:brightness-110",
+  primary: "bg-plasma text-white hover:bg-accent-deep",
+  warm: "bg-accent-warm text-white hover:brightness-110",
+  ghost: "bg-white/70 text-ink border border-seam hover:border-plasma hover:text-plasma",
+  danger: "bg-alert text-white hover:brightness-110",
 };
 
 const sizeClasses: Record<Size, string> = {
@@ -25,14 +25,13 @@ const sizeClasses: Record<Size, string> = {
   lg: "px-8 py-3.5 text-base",
 };
 
-/** Chunky tactile game button — presses down like a console key */
+/** Editorial pill button — quiet press, soft shadow */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { variant = "primary", size = "md", to, className = "", children, onClick, disabled, ...rest },
   ref
 ) {
-  const cls = `inline-flex select-none items-center justify-center gap-2 rounded-full font-display font-extrabold uppercase tracking-wider transition-all duration-100 active:translate-y-1 active:shadow-none disabled:cursor-not-allowed disabled:opacity-40 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+  const cls = `inline-flex select-none items-center justify-center gap-2 rounded-full font-display font-bold shadow-sm transition-all duration-150 active:translate-y-px active:shadow-none disabled:cursor-not-allowed disabled:opacity-40 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
 
-  /** Tactile console click on every button press */
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (!disabled) sfx.blip();
     onClick?.(e);

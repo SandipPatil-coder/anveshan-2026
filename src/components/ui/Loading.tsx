@@ -5,7 +5,7 @@ export function ConsoleLoader({ label = "LOADING" }: { label?: string }) {
         {[0, 1, 2].map((i) => (
           <span
             key={i}
-            className="h-2 w-2 animate-pulse rounded-full bg-plasma shadow-glow"
+            className="h-2 w-2 animate-pulse rounded-full bg-plasma"
             style={{ animationDelay: `${i * 180}ms` }}
           />
         ))}
@@ -18,7 +18,7 @@ export function ConsoleLoader({ label = "LOADING" }: { label?: string }) {
 export function ErrorState({ message, children }: { message: string; children?: React.ReactNode }) {
   return (
     <div className="clip-panel border border-alert/40 bg-alert/5 px-6 py-10 text-center">
-      <div className="font-mono text-xs tracking-[0.3em] text-alert">SIGNAL FAULT</div>
+      <div className="font-mono text-xs tracking-[0.3em] text-alert">ERROR</div>
       <p className="mt-2 text-sm text-inkdim">{message}</p>
       {children}
     </div>

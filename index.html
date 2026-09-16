@@ -2,18 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/console-icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0d0d1a" />
+    <meta name="theme-color" content="#faf6ee" />
     <meta
       name="description"
-      content="ANVESHAN 2026 — the game-like night matsuri for our college techfest. Walk the festival grounds, join events, collect your omamori passes."
+      content="ANVESHAN 2026 — a Japan-themed techfest. Browse events, register your team, and get your QR entry pass."
     />
-    <title>ANVESHAN 2026 · 日本祭 — Night Matsuri</title>
+    <title>ANVESHAN 2026 · 日本祭 — Japan-Themed Techfest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800;900&family=Nunito:wght@600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700;800&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -21,20 +21,28 @@
       #boot {
         position: fixed;
         inset: 0;
-        background: #0d0d1a;
+        background: #faf6ee;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #ffab5e;
-        font-family: "Nunito", sans-serif;
+        gap: 10px;
+        color: #232028;
+        font-family: "Zen Kaku Gothic New", sans-serif;
         font-weight: 900;
         letter-spacing: 0.3em;
         font-size: 12px;
       }
+      #boot::before {
+        content: "";
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        background: #c73e3a;
+      }
     </style>
   </head>
   <body>
-    <div id="boot">祭 LOADING MATSURI…</div>
+    <div id="boot">ANVESHAN 2026</div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
